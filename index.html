@@ -117,14 +117,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .chat-hdr{padding:10px 13px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0}
 .ctitle{font-size:13px;font-weight:600}
 .csub{font-size:11px;color:var(--t2)}
-.cam-panel{position:relative;overflow:hidden;flex-shrink:0;height:0;transition:height .25s ease;background:#111}
-.cam-panel.open{height:175px}
-#cam-video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
-.cam-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;padding:3px 8px;border-radius:10px;display:flex;align-items:center;gap:4px}
-.cam-dot{width:6px;height:6px;border-radius:50%;background:#FF4444;animation:pulse 1.2s infinite}
-.cam-tip{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.8);color:#fff;font-size:12px;padding:9px 13px;line-height:1.5;transform:translateY(100%);transition:transform .3s ease}
-.cam-tip.show{transform:translateY(0)}
-.cam-x{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:24px;height:24px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px}
 .msg{max-width:87%;padding:10px 13px;border-radius:17px;font-size:13px;line-height:1.55}
 .msg.t{background:var(--text);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
@@ -188,7 +180,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="form-g">
     <label>Claude API Key</label>
     <input type="password" id="api-key-input" placeholder="sk-ant-api..." autocomplete="off">
-    <p class="hint">Stored on this device only. Get your key at <strong>console.anthropic.com</strong> → API Keys.<br><br>⚠️ Camera &amp; voice features require HTTPS — use a local server or deploy to GitHub Pages.</p>
+    <p class="hint">Stored on this device only. Get your key at <strong>console.anthropic.com</strong> → API Keys.<br><br>⚠️ Voice recognition requires HTTPS — use GitHub Pages or a local server.</p>
   </div>
   <button class="btn btn-d" onclick="saveKey()">Let's go →</button>
 </div>
@@ -209,8 +201,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </div>
     <div class="mc" onclick="go('simulation-screen')">
       <div class="ico">🎭</div><h2>Class Simulation</h2>
-      <p>Tu enseignes, les élèves répondent à voix haute. Webcam coaching inclus.</p>
-      <div class="tags"><span class="tag">🔊 Voix élèves</span><span class="tag">📷 Webcam</span><span class="tag">AI feedback</span></div>
+      <p>Tu enseignes, les élèves répondent à voix haute. Feedback IA en temps réel.</p>
+      <div class="tags"><span class="tag">🔊 Voix élèves</span><span class="tag">AI feedback</span></div>
     </div>
     <div class="mc" onclick="go('practice-screen')">
       <div class="ico">🎤</div><h2>Solo Practice</h2>
@@ -290,15 +282,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     <div><div class="ctitle" id="c-title">Class</div><div class="csub" id="c-sub">Scenario</div></div>
     <div class="hdr-r">
       <button class="ibtn" id="tts-btn" onclick="toggleTts()">🔇 Off</button>
-      <button class="ibtn" id="cam-btn" onclick="toggleCam()">📷</button>
       <button class="ibtn" onclick="getFeedback()">📊</button>
     </div>
-  </div>
-  <div class="cam-panel" id="cam-panel">
-    <video id="cam-video" autoplay muted playsinline></video>
-    <div class="cam-badge"><div class="cam-dot"></div><span>Coach watching</span></div>
-    <div class="cam-tip" id="cam-tip"></div>
-    <button class="cam-x" onclick="stopCamera()">✕</button>
   </div>
   <div class="msgs" id="msgs"></div>
   <div class="cinput">
@@ -462,6 +447,28 @@ teaching:[
 {en:"Imagine your spine is growing taller",fr:"Imaginez que votre colonne grandit",def:"Elongation imagery — visualization cue."},
 {en:"Let gravity do the work",fr:"Laissez la gravité faire le travail",def:"Passive release or stretch cue."},
 {en:"Come to a standing position",fr:"Venez en position debout",def:"Transition cue to standing."},
+],
+smalltalk:[
+{en:"Good morning, everyone!",fr:"Bonjour tout le monde !",def:"Warm opening greeting to set a welcoming atmosphere."},
+{en:"How is everyone feeling today?",fr:"Comment vous sentez-vous aujourd'hui ?",def:"Check-in to gauge students' energy before class."},
+{en:"Has anyone had any injuries I should know about?",fr:"Est-ce que quelqu'un a des blessures dont je devrais être informé(e) ?",def:"Safety check — essential at the start of every class."},
+{en:"Any questions before we start?",fr:"Des questions avant de commencer ?",def:"Opening invitation for student questions."},
+{en:"Please remove your shoes and socks.",fr:"Merci de retirer vos chaussures et chaussettes.",def:"Standard setup instruction for mat class."},
+{en:"Grab a mat and find your space.",fr:"Prenez un tapis et trouvez votre place.",def:"Class setup instruction."},
+{en:"Take a moment to arrive.",fr:"Prenez un moment pour arriver.",def:"Mindfulness opening — inviting students to settle in."},
+{en:"Leave the outside world at the door.",fr:"Laissez le monde extérieur à la porte.",def:"Classic Pilates invitation to be fully present."},
+{en:"Have you done Pilates before?",fr:"Avez-vous déjà fait du Pilates ?",def:"Question to assess experience level."},
+{en:"Let me know if anything doesn't feel right.",fr:"N'hésitez pas à me le dire si quelque chose ne va pas.",def:"Safety reminder — permission to speak up."},
+{en:"Feel free to rest whenever you need to.",fr:"N'hésitez pas à vous reposer quand vous en avez besoin.",def:"Permission to modify or rest — inclusive teaching."},
+{en:"How did that feel?",fr:"Comment vous avez senti ça ?",def:"Post-exercise check-in for body awareness."},
+{en:"Take your time coming up.",fr:"Prenez votre temps pour vous relever.",def:"End-of-class instruction to rise slowly and safely."},
+{en:"Don't rush — take a moment in final rest.",fr:"Ne vous précipitez pas — prenez un moment de repos final.",def:"Encouraging a quiet moment before leaving."},
+{en:"That's it for today — wonderful work, everyone!",fr:"C'est tout pour aujourd'hui — excellent travail, tout le monde !",def:"Closing the class with group encouragement."},
+{en:"Great effort today.",fr:"Bel effort aujourd'hui.",def:"Individual encouragement as students leave."},
+{en:"Roll up your mat when you're ready.",fr:"Roulez votre tapis quand vous êtes prêt(e).",def:"Post-class cleanup instruction."},
+{en:"See you next time!",fr:"À la prochaine !",def:"Class farewell."},
+{en:"Come back for more practice — you're doing great.",fr:"Revenez pratiquer — vous faites de vraies progrès.",def:"Motivational closing to encourage return."},
+{en:"Is there anything specific you'd like to work on today?",fr:"Y a-t-il quelque chose de spécifique sur lequel vous aimeriez travailler aujourd'hui ?",def:"Opening question to personalize the session."},
 ]
 };
 
@@ -524,7 +531,6 @@ let fcCat='anatomy',fcCards=[],fcIdx=0,fcKnown=new Set();
 let qCards=[],qIdx=0,qScore=0,qTotal=0,qDone=false;
 let chatH=[],simKey=null,simLoading=false;
 let ttsOn=localStorage.getItem('pc_tts')==='true',ttsVoices=[];
-let camStream=null,camInt=null,camBusy=false,camTimer=null;
 let curTopic=null,recText='',recInt='',recOn=false,recR=null,recTI=null,recSec=0;
 let cvRec=null,cvOn=false;
 
@@ -552,7 +558,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ══════════ FLASHCARDS ══════════
-const CATS=[{id:'anatomy',l:'🦴 Anatomy'},{id:'principles',l:'✨ Principles'},{id:'cues',l:'💬 Cues'},{id:'exercises',l:'🏃 Exercises'},{id:'teaching',l:'🎓 Teaching'}];
+const CATS=[{id:'anatomy',l:'🦴 Anatomy'},{id:'principles',l:'✨ Principles'},{id:'cues',l:'💬 Cues'},{id:'exercises',l:'🏃 Exercises'},{id:'teaching',l:'🎓 Teaching'},{id:'smalltalk',l:'🗣 Small Talk'}];
 
 function initFC(){renderCTabs();loadCat(fcCat);}
 function renderCTabs(){
@@ -636,7 +642,7 @@ function startSim(key){
 }
 function endSim(){
   if(chatH.length>0&&!confirm('End session?'))return;
-  stopCamera();cancelSpeech();stopCV();
+  cancelSpeech();stopCV();
   go('simulation-screen');
 }
 
@@ -648,15 +654,6 @@ async function api(messages,system,maxT=400){
     body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:maxT,system,messages})
   });
   if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||`API ${r.status}`);}
-  return(await r.json()).content[0].text;
-}
-async function apiVision(b64,prompt){
-  const r=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:150,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},{type:'text',text:prompt}]}]})
-  });
-  if(!r.ok)throw new Error(`Vision ${r.status}`);
   return(await r.json()).content[0].text;
 }
 async function send(){
@@ -709,7 +706,11 @@ function pronounce(text){
 
 // ══════════ TTS ══════════
 function loadVoices(){
-  const set=()=>{ttsVoices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));};
+  const set=()=>{
+    const all=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+    const f=all.filter(v=>/female|samantha|karen|victoria|moira|fiona|zira|hazel|susan|google us english$/i.test(v.name));
+    ttsVoices=f.length?f:all;
+  };
   set();
   speechSynthesis.addEventListener('voiceschanged',set);
   setTimeout(set,1000);
@@ -752,44 +753,6 @@ function speakQ(segs,i){
 function cancelSpeech(){if(typeof speechSynthesis!=='undefined')speechSynthesis.cancel();}
 function toggleTts(){ttsOn=!ttsOn;localStorage.setItem('pc_tts',ttsOn);updateTtsBtn();toast(ttsOn?'🔊 Student voices ON':'🔇 Student voices OFF');}
 function updateTtsBtn(){const b=document.getElementById('tts-btn');if(!b)return;b.textContent=ttsOn?'🔊 On':'🔇 Off';b.classList.toggle('on',ttsOn);}
-
-// ══════════ WEBCAM + VISION ══════════
-async function toggleCam(){
-  if(camStream){stopCamera();return;}
-  if(!navigator.mediaDevices?.getUserMedia){toast('Camera not available (needs HTTPS)');return;}
-  try{
-    camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:320},height:{ideal:240}}});
-    document.getElementById('cam-video').srcObject=camStream;
-    document.getElementById('cam-panel').classList.add('open');
-    document.getElementById('cam-btn').classList.add('on');
-    camInt=setInterval(analyzeFrame,30000);
-    setTimeout(analyzeFrame,5000);
-  }catch(e){toast('Camera permission denied');}
-}
-function stopCamera(){
-  if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}
-  clearInterval(camInt);camInt=null;
-  clearTimeout(camTimer);camTimer=null;
-  document.getElementById('cam-panel').classList.remove('open');
-  document.getElementById('cam-btn').classList.remove('on');
-  document.getElementById('cam-tip').classList.remove('show');
-}
-async function analyzeFrame(){
-  if(!camStream||camBusy)return;
-  camBusy=true;
-  try{
-    const v=document.getElementById('cam-video');
-    const c=document.createElement('canvas');c.width=320;c.height=240;
-    c.getContext('2d').drawImage(v,0,0,320,240);
-    const b64=c.toDataURL('image/jpeg',.7).split(',')[1];
-    const tip=await apiVision(b64,'You are a Pilates teacher trainer watching a student teacher on video. In 1-2 short encouraging sentences, give feedback on their teaching presence: eye contact with the camera, posture confidence, and use of hands or gestures. Be specific.');
-    const el=document.getElementById('cam-tip');
-    el.textContent=tip;el.classList.add('show');
-    clearTimeout(camTimer);
-    camTimer=setTimeout(()=>el.classList.remove('show'),8000);
-  }catch(e){}
-  camBusy=false;
-}
 
 // ══════════ PRACTICE RECORDING ══════════
 function buildTopics(){
