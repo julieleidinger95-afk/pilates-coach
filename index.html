@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --bg:#F8F4F0;--surface:#fff;--text:#1C1917;--t2:#6B6460;
-  --accent:#C2714F;--al:#FDEEE8;--border:#E8DDD6;
+  --accent:#5A7A68;--al:#EAF2EE;--border:#E8DDD6;
   --green:#4D7C5F;--red:#C0503A;--r:18px;--rs:12px;
   --shadow:0 4px 20px rgba(0,0,0,.07),0 1px 4px rgba(0,0,0,.04)
 }
@@ -30,7 +30,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .form-g{margin-bottom:20px}
 .form-g label{display:block;font-size:11px;font-weight:700;color:var(--t2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px}
 .form-g input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--rs);font-family:inherit;font-size:14px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s}
-.form-g input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(194,113,79,.12)}
+.form-g input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(90,122,104,.12)}
 .hint{font-size:12px;color:var(--t2);margin-top:9px;line-height:1.65}
 .ibtn{padding:7px 12px;border-radius:16px;border:1.5px solid var(--border);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;background:var(--surface);color:var(--t2);flex-shrink:0;white-space:nowrap;transition:all .15s}
 .ibtn.on{background:var(--al);color:var(--accent);border-color:var(--accent)}
@@ -38,14 +38,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 /* SETUP */
 #setup-screen{padding:48px 24px;justify-content:center;background:linear-gradient(160deg,#F8F4F0 0%,#F0E6DC 100%)}
 .su-top{text-align:center;margin-bottom:48px}
-.su-top .logo{font-size:56px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(194,113,79,.3))}
+.su-top .logo{font-size:56px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(90,122,104,.3))}
 .su-top h1{font-family:'DM Serif Display',Georgia,serif;font-size:30px;font-weight:400;letter-spacing:-.5px}
 .su-top p{color:var(--t2);margin-top:8px;font-size:14px}
 
 /* HOME */
 .h-hero{background:linear-gradient(145deg,#1C1917 0%,#2E1F15 65%,#3D2818 100%);color:#fff;padding:48px 24px 40px;text-align:center;flex-shrink:0;position:relative;overflow:hidden}
-.h-hero::before{content:'';position:absolute;top:-30%;right:-15%;width:260px;height:260px;background:radial-gradient(circle,rgba(194,113,79,.35) 0%,transparent 65%);pointer-events:none}
-.h-hero::after{content:'';position:absolute;bottom:-20%;left:-10%;width:180px;height:180px;background:radial-gradient(circle,rgba(194,113,79,.15) 0%,transparent 70%);pointer-events:none}
+.h-hero::before{content:'';position:absolute;top:-30%;right:-15%;width:260px;height:260px;background:radial-gradient(circle,rgba(90,122,104,.35) 0%,transparent 65%);pointer-events:none}
+.h-hero::after{content:'';position:absolute;bottom:-20%;left:-10%;width:180px;height:180px;background:radial-gradient(circle,rgba(90,122,104,.15) 0%,transparent 70%);pointer-events:none}
 .h-hero .logo{font-size:48px;margin-bottom:14px;position:relative;z-index:1;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))}
 .h-hero h1{font-family:'DM Serif Display',Georgia,serif;font-size:28px;font-weight:400;letter-spacing:-.3px;margin-bottom:6px;position:relative;z-index:1}
 .h-hero p{opacity:.55;font-size:13px;position:relative;z-index:1;letter-spacing:.2px}
@@ -63,13 +63,13 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .ctabs{display:flex;overflow-x:auto;padding:10px 14px;gap:6px;background:var(--surface);border-bottom:1px solid var(--border);scrollbar-width:none;flex-shrink:0}
 .ctabs::-webkit-scrollbar{display:none}
 .tpill{flex-shrink:0;padding:7px 13px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:transparent;font-family:inherit;color:var(--t2);transition:all .2s;white-space:nowrap}
-.tpill.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(194,113,79,.3)}
+.tpill.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(90,122,104,.3)}
 .card-area{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px;overflow-y:auto}
 .cmeta{display:flex;justify-content:space-between;width:100%;margin-bottom:9px}
 .ccnt{font-size:12px;color:var(--t2);font-weight:500}
 .cknown{font-size:12px;color:var(--green);font-weight:600}
 .pbar{width:100%;height:4px;background:var(--border);border-radius:4px;margin-bottom:18px;overflow:hidden}
-.pfill{height:100%;background:linear-gradient(90deg,var(--accent),#E8A07A);border-radius:4px;transition:width .4s ease}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),#7AAF96);border-radius:4px;transition:width .4s ease}
 .fwrap{width:100%;perspective:1000px;height:230px;flex-shrink:0;margin-bottom:16px}
 .fcard{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.4,0,.2,1);cursor:pointer}
 .fcard.flipped{transform:rotateY(180deg)}
@@ -140,7 +140,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .iwrap textarea::placeholder{color:var(--t2)}
 .icbtn{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .15s}
 .vbtn{background:var(--al);color:var(--accent)}
-.vbtn.on{background:#FFE0DA;animation:pulse 1s infinite}
+.vbtn.on{background:#D0EAE0;animation:pulse 1s infinite}
 .sbtn{background:linear-gradient(135deg,#1C1917,#2E1F15);color:#fff;box-shadow:0 3px 10px rgba(28,25,23,.25)}
 .sbtn:disabled{opacity:.35;box-shadow:none}
 
@@ -201,7 +201,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="form-g">
     <label>Claude API Key</label>
     <input type="password" id="api-key-input" placeholder="sk-ant-api..." autocomplete="off">
-    <p class="hint">Stored on this device only. Get your key at <strong>console.anthropic.com</strong> → API Keys.<br><br>⚠️ Voice recognition requires HTTPS — use GitHub Pages or a local server.</p>
+    <p class="hint">Stored on this device only. Get your key at <strong>console.anthropic.com</strong> → API Keys.<br><br>⚠️ Voice recognition requires HTTPS. Use GitHub Pages or a local server.</p>
   </div>
   <button class="btn btn-d" onclick="saveKey()">Let's go →</button>
 </div>
@@ -222,7 +222,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </div>
     <div class="mc" onclick="go('proncheck-screen')">
       <div class="ico">🗣</div><h2>Pronunciation Check</h2>
-      <p>Dis le terme à voix haute — l'app valide ta prononciation instantanément.</p>
+      <p>Dis le terme à voix haute : l'app valide ta prononciation instantanément.</p>
       <div class="tags"><span class="tag tag-free">Gratuit</span><span class="tag">🎙 Micro</span><span class="tag">Feedback</span></div>
     </div>
     <div class="mc" onclick="go('simulation-screen')">
@@ -232,12 +232,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </div>
     <div class="mc" onclick="go('cue-screen')">
       <div class="ico">🎯</div><h2>Cue Builder</h2>
-      <p>Claude te donne une situation de classe — tu formules le cue en anglais.</p>
+      <p>Claude te donne une situation de classe, tu formules ton cue en anglais.</p>
       <div class="tags"><span class="tag tag-ai">Crédits API</span><span class="tag">Feedback IA</span></div>
     </div>
     <div class="mc" onclick="go('practice-screen')">
       <div class="ico">🎤</div><h2>Solo Practice</h2>
-      <p>Enregistre-toi en train d'enseigner — débrief IA de ton vocab et tes cues.</p>
+      <p>Enregistre-toi en train d'enseigner, débrief complet de ton vocab et tes cues.</p>
       <div class="tags"><span class="tag tag-ai">Débrief = crédits</span><span class="tag">Enregistrement</span></div>
     </div>
     <button class="btn btn-o" onclick="showSettings()" style="margin-top:4px">⚙ API Key</button>
@@ -303,14 +303,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 <div id="simulation-screen" class="screen">
   <div class="hdr"><button class="back" onclick="go('home-screen')">←</button><h2>Class Simulation</h2></div>
   <div class="slist">
-    <p class="sintro">Tu es le prof. Instruis en anglais — les élèves répondent, parlent, et te donnent du feedback vocab.</p>
+    <p class="sintro">Tu es le prof. Instruis en anglais : les élèves répondent et te donnent du feedback vocab.</p>
     <div class="sc" onclick="startSim('first')"><div class="sico">🌱</div><div class="si"><h3>First Class Ever</h3><p>Ambiance ultra-bienveillante pour débuter sans pression.</p></div><div class="sarr">›</div></div>
     <div class="sc" onclick="startSim('beginner')"><div class="sico">🔰</div><div class="si"><h3>Beginner Mat Class</h3><p>Groupe de 4 débutants. Fondamentaux, corrections, modifications.</p></div><div class="sarr">›</div></div>
     <div class="sc" onclick="startSim('intermediate')"><div class="sico">⭐</div><div class="si"><h3>Intermediate Class</h3><p>Étudiants exigeants. Précision technique et flow.</p></div><div class="sarr">›</div></div>
     <div class="sc" onclick="startSim('certification')"><div class="sico">🎓</div><div class="si"><h3>Certification Exam</h3><p>Un examinateur observe et pose des questions précises.</p></div><div class="sarr">›</div></div>
     <div class="sc" onclick="startSim('private')"><div class="sico">🧍</div><div class="si"><h3>Private Lesson</h3><p>Un(e) élève individuel(le) avec des besoins spécifiques.</p></div><div class="sarr">›</div></div>
-    <div class="sc" onclick="startSim('backpain')"><div class="sico">🩺</div><div class="si"><h3>Back Pain Student</h3><p>Élève avec douleurs lombaires — modifications et sécurité.</p></div><div class="sarr">›</div></div>
-    <div class="sc" onclick="startSim('online')"><div class="sico">💻</div><div class="si"><h3>Virtual Class</h3><p>Cours en ligne — sans corrections manuelles, connexion instable.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('backpain')"><div class="sico">🩺</div><div class="si"><h3>Back Pain Student</h3><p>Élève avec douleurs lombaires : modifications et sécurité.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('online')"><div class="sico">💻</div><div class="si"><h3>Virtual Class</h3><p>Cours en ligne, sans corrections manuelles ni connexion stable garantie.</p></div><div class="sarr">›</div></div>
   </div>
 </div>
 
@@ -421,14 +421,14 @@ anatomy:[
 {en:"Imprint",fr:"Imprimer la colonne",def:"Gently pressing the lumbar spine into the mat, flattening the low back."},
 {en:"Powerhouse",fr:"Centre de force",def:"The deep core: transversus abdominis, pelvic floor, lower back, and glutes."},
 {en:"Pelvic Floor",fr:"Plancher pelvien / Périnée",def:"Hammock of muscles at the base of the pelvis supporting the organs."},
-{en:"Transversus Abdominis",pron:"trans·VER·sus  ab·DOM·in·is",tts:"trans VER sus  ab DOM in is",fr:"Transverse de l'abdomen",def:"Deepest abdominal muscle — wraps around the trunk like a corset."},
+{en:"Transversus Abdominis",pron:"trans·VER·sus  ab·DOM·in·is",tts:"trans VER sus  ab DOM in is",fr:"Transverse de l'abdomen",def:"Deepest abdominal muscle: wraps around the trunk like a corset."},
 {en:"Rectus Abdominis",pron:"REK·tus  ab·DOM·in·is",tts:"REK tus  ab DOM in is",fr:"Droit de l'abdomen",def:"The superficial 'six-pack' muscle running vertically along the front of the belly."},
 {en:"Obliques",pron:"oh·BLEEKS",tts:"oh BLEEKS",fr:"Obliques (interne & externe)",def:"Side abdominal muscles responsible for rotation and lateral flexion."},
 {en:"Shoulder Girdle",fr:"Ceinture scapulaire",def:"Structure formed by the shoulder blades and collarbones."},
-{en:"Scapulae",pron:"SKAP·yoo·lee",tts:"SKAP yoo lee",fr:"Omoplates",def:"The shoulder blades — must be stabilized during arm movements."},
+{en:"Scapulae",pron:"SKAP·yoo·lee",tts:"SKAP yoo lee",fr:"Omoplates",def:"The shoulder blades: must be stabilized during arm movements."},
 {en:"Hip Flexors",fr:"Fléchisseurs de hanche",def:"Muscles that bring the thigh toward the torso (psoas, iliacus, rectus femoris)."},
 {en:"Hamstrings",fr:"Ischio-jambiers",def:"Three muscles along the back of the thigh."},
-{en:"Glutes",fr:"Fessiers",def:"Gluteus maximus, medius, and minimus — key for hip stability and extension."},
+{en:"Glutes",fr:"Fessiers",def:"Gluteus maximus, medius, and minimus: key for hip stability and extension."},
 {en:"Erector Spinae",pron:"ih·REK·tor  SPY·nee",tts:"ih REK tor  SPY nee",fr:"Érecteurs du rachis",def:"Column of muscles along the spine responsible for extension and posture."},
 {en:"Adductors",fr:"Adducteurs",def:"Inner thigh muscles that bring the legs together."},
 {en:"Cervical Spine",fr:"Colonne cervicale",def:"The 7 vertebrae of the neck."},
@@ -443,39 +443,39 @@ anatomy:[
 {en:"Hip Socket (Acetabulum)",pron:"ass·ih·TAB·yoo·lum",tts:"ass ih TAB yoo lum",fr:"Acétabulum",def:"Cup-shaped socket in the pelvis where the femur head articulates."},
 ],
 principles:[
-{en:"Centering",fr:"Centrage",def:"Drawing power from the body's center — the powerhouse. All movement originates here."},
+{en:"Centering",fr:"Centrage",def:"Drawing power from the body's center: the powerhouse. All movement originates here."},
 {en:"Concentration",fr:"Concentration",def:"Full mental focus on each movement and its intention."},
 {en:"Control",fr:"Contrôle",def:"Every movement is performed with muscular control, never momentum."},
 {en:"Precision",fr:"Précision",def:"Correct placement and deliberate effort for every movement."},
-{en:"Breath",fr:"Respiration",def:"Coordinating breath with movement — exhale on exertion."},
+{en:"Breath",fr:"Respiration",def:"Coordinating breath with movement: exhale on exertion."},
 {en:"Flow",fr:"Fluidité",def:"Graceful, continuous movement creating efficiency and rhythm."},
 {en:"Lateral Breathing",fr:"Respiration latérale",def:"Expanding the ribcage sideways and into the back on the inhale."},
 {en:"Thoracic Breathing",fr:"Respiration thoracique",def:"Breathing into the chest rather than the belly, keeping the core engaged."},
 {en:"Scoop",fr:"Creuser",def:"Drawing the abdominals in and up away from the waistband."},
 ],
 cues:[
-{en:"Draw your navel to your spine",fr:"Rentrez le nombril vers la colonne",def:"Core engagement cue — activates the transversus abdominis."},
-{en:"Lengthen through the crown of your head",fr:"Grandissez par le sommet du crâne",def:"Axial elongation cue — creates space between vertebrae."},
-{en:"Soften your shoulders",fr:"Relâchez vos épaules",def:"Release tension in the trapezius — let the shoulders drop from the ears."},
+{en:"Draw your navel to your spine",fr:"Rentrez le nombril vers la colonne",def:"Core engagement cue: activates the transversus abdominis."},
+{en:"Lengthen through the crown of your head",fr:"Grandissez par le sommet du crâne",def:"Axial elongation cue: creates space between vertebrae."},
+{en:"Soften your shoulders",fr:"Relâchez vos épaules",def:"Release tension in the trapezius: let the shoulders drop from the ears."},
 {en:"Engage your powerhouse",fr:"Engagez votre centre",def:"Activate the entire deep core before and during movement."},
 {en:"Find your neutral spine",fr:"Trouvez votre colonne neutre",def:"Position the spine maintaining its natural curves."},
-{en:"Breathe into your back",fr:"Respirez dans votre dos",def:"Direct breath into the posterior ribcage — lateral breathing cue."},
+{en:"Breathe into your back",fr:"Respirez dans votre dos",def:"Direct breath into the posterior ribcage: lateral breathing cue."},
 {en:"Articulate through your spine",fr:"Articulez à travers la colonne",def:"Move vertebra by vertebra in sequence, like a string of pearls."},
 {en:"Melt your ribs down",fr:"Abaissez / Fermez les côtes",def:"Close the lower ribs toward the pelvis to prevent back arching."},
-{en:"Chin to chest",fr:"Menton vers la poitrine",def:"Cervical flexion — elongates the back of the neck."},
+{en:"Chin to chest",fr:"Menton vers la poitrine",def:"Cervical flexion: elongates the back of the neck."},
 {en:"Keep your hips square",fr:"Gardez les hanches carrées",def:"Maintain equal hip height without rotation during leg work."},
-{en:"Wrap your inner thighs",fr:"Enroulez les cuisses internes",def:"Slight internal rotation — engages the inner thighs."},
-{en:"Scoop your belly",fr:"Creusez le ventre",def:"Draw the abdominals in and up — Pilates core engagement."},
+{en:"Wrap your inner thighs",fr:"Enroulez les cuisses internes",def:"Slight internal rotation: engages the inner thighs."},
+{en:"Scoop your belly",fr:"Creusez le ventre",def:"Draw the abdominals in and up: Pilates core engagement."},
 {en:"Stabilize your pelvis",fr:"Stabilisez le bassin",def:"Keep the pelvis still and neutral throughout the movement."},
 {en:"Press your heels away",fr:"Poussez les talons vers l'avant",def:"Dorsiflex the feet and reach through the heels for leg length."},
 {en:"Open your chest",fr:"Ouvrez la poitrine",def:"Widen the collarbones and expand the front of the chest."},
 {en:"Knit your ribs together",fr:"Rapprochez les côtes",def:"Draw the lower ribs toward each other to engage the abdominals."},
 {en:"Float your arms",fr:"Flottez les bras",def:"Lift the arms without gripping or tensing the shoulders and neck."},
-{en:"Imagine a string at the crown of your head",fr:"Imaginez un fil au sommet du crâne",def:"Visualization for spinal elongation — classic Pilates image."},
-{en:"Relax your jaw",fr:"Détendez la mâchoire",def:"Release facial tension — cue for whole-body relaxation."},
+{en:"Imagine a string at the crown of your head",fr:"Imaginez un fil au sommet du crâne",def:"Visualization for spinal elongation: classic Pilates image."},
+{en:"Relax your jaw",fr:"Détendez la mâchoire",def:"Release facial tension: cue for whole-body relaxation."},
 {en:"Ground your sitting bones",fr:"Ancrez vos ischions",def:"Press evenly through both sit bones in seated exercises."},
-{en:"Keep your shoulders away from your ears",fr:"Gardez les épaules loin des oreilles",def:"Trapezius release — very common correction in class."},
-{en:"Breathe through pursed lips",fr:"Expirez lèvres pincées",def:"Classic Pilates exhale technique — focused breath."},
+{en:"Keep your shoulders away from your ears",fr:"Gardez les épaules loin des oreilles",def:"Trapezius release: very common correction in class."},
+{en:"Breathe through pursed lips",fr:"Expirez lèvres pincées",def:"Classic Pilates exhale technique: focused breath."},
 ],
 exercises:[
 {en:"The Hundred",fr:"Le Cent",def:"Signature warm-up: pumping arms 100 times in a curl-up with legs at table-top or extended."},
@@ -483,107 +483,107 @@ exercises:[
 {en:"Roll Over",fr:"Le Retournement",def:"Legs overhead with controlled spinal articulation, then open and lower."},
 {en:"Single Leg Circle",fr:"Le Cercle d'une Jambe",def:"One leg traces circles while the pelvis remains completely stable."},
 {en:"Rolling Like a Ball",fr:"Rouler Comme une Balle",def:"Balanced on the sacrum, rolling back and returning without touching the mat."},
-{en:"Single Leg Stretch",fr:"L'Extension d'une Jambe",def:"Alternating legs extending while in a curl-up — core and coordination."},
+{en:"Single Leg Stretch",fr:"L'Extension d'une Jambe",def:"Alternating legs extending while in a curl-up: core and coordination."},
 {en:"Double Leg Stretch",fr:"L'Extension des Deux Jambes",def:"Reaching arms and legs away from center, then circling back in."},
-{en:"Spine Stretch Forward",fr:"L'Extension de la Colonne",def:"Seated forward flexion of the spine with arms reaching — a 'C' curve."},
+{en:"Spine Stretch Forward",fr:"L'Extension de la Colonne",def:"Seated forward flexion of the spine with arms reaching: a 'C' curve."},
 {en:"Open Leg Rocker",fr:"Le Balancier Jambes Ouvertes",def:"Balanced on the sit bones with straight legs, rolling back and returning."},
 {en:"Corkscrew",fr:"Le Tire-Bouchon",def:"Both legs circle together while maintaining a stable, flat back."},
 {en:"Saw",fr:"La Scie",def:"Spinal rotation with forward flexion, reaching the opposite hand past the foot."},
-{en:"Swan",fr:"Le Cygne",def:"Prone spinal extension sequence — the back extension series."},
+{en:"Swan",fr:"Le Cygne",def:"Prone spinal extension sequence: the back extension series."},
 {en:"Single Leg Kick",fr:"La Ruade d'une Jambe",def:"Prone on elbows: alternate knee flexion while maintaining spinal extension."},
 {en:"Double Leg Kick",fr:"La Ruade des Deux Jambes",def:"Prone: both legs kick 3 times, then extend spine and reach arms back."},
 {en:"Neck Pull",fr:"La Traction du Cou",def:"Hands behind the head, rolling up with control and flexing forward."},
 {en:"Side Kicks",fr:"Les Coups de Pied Latéraux",def:"Side-lying series targeting hip stability and leg strength."},
-{en:"Teaser",fr:"Le Taquin",def:"V-sit balance — a quintessential powerhouse challenge."},
+{en:"Teaser",fr:"Le Taquin",def:"V-sit balance: a quintessential powerhouse challenge."},
 {en:"Swimming",fr:"La Natation",def:"Prone: alternating opposite arm and leg lifts with a flutter-kick rhythm."},
 {en:"Leg Pull Front",fr:"Extension des Jambes Face Avant",def:"Plank position: one leg lifts while maintaining a perfectly stable trunk."},
-{en:"Side Bend",fr:"La Flexion Latérale",def:"Side plank with a lateral arc of the body — challenges lateral stability."},
+{en:"Side Bend",fr:"La Flexion Latérale",def:"Side plank with a lateral arc of the body: challenges lateral stability."},
 {en:"Boomerang",fr:"Le Boomerang",def:"Complex combination of Teaser, Roll Over, and balance."},
-{en:"Seal",fr:"Le Phoque",def:"Rolling Like a Ball with hands clasped inside the ankles — spinal mobility."},
+{en:"Seal",fr:"Le Phoque",def:"Rolling Like a Ball with hands clasped inside the ankles: spinal mobility."},
 {en:"Push Up",fr:"La Pompe",def:"Classical ending: standing roll-down into push-up and back up."},
-{en:"Criss Cross",fr:"Criss Cross",def:"Rotation alternée en curl-up — coude vers genou opposé, jambe opposée en extension."},
+{en:"Criss Cross",fr:"Criss Cross",def:"Rotation alternée en curl-up: coude vers genou opposé, jambe opposée en extension."},
 {en:"Scissors",fr:"Les Ciseaux",def:"Supine: alternating legs pulling toward the chest while the other extends long."},
 {en:"Double Straight Leg Stretch",fr:"Extension Jambes Tendues",def:"Lower and lift both straight legs together, maintaining spinal imprint."},
-{en:"Jackknife",fr:"Le Couteau de Poche",def:"Legs overhead then pressing straight up to the ceiling — advanced spinal articulation."},
+{en:"Jackknife",fr:"Le Couteau de Poche",def:"Legs overhead then pressing straight up to the ceiling: advanced spinal articulation."},
 {en:"Hip Circles",fr:"Cercles des Hanches",def:"In back-support position, both legs circle together while the trunk stays stable."},
-{en:"Shoulder Bridge",fr:"Le Pont d'Épaules",def:"Spinal articulation into a bridge — one leg may extend for added challenge."},
+{en:"Shoulder Bridge",fr:"Le Pont d'Épaules",def:"Spinal articulation into a bridge: one leg may extend for added challenge."},
 {en:"Spine Twist",fr:"La Torsion de la Colonne",def:"Seated tall rotation in both directions, maintaining length through the crown."},
 {en:"Control Balance",fr:"L'Équilibre Contrôlé",def:"Advanced: balance inverted on shoulders with scissoring legs overhead."},
-{en:"Rocking",fr:"Le Balancement",def:"Prone rocking on the front body — deep spinal extension and hip flexor stretch."},
+{en:"Rocking",fr:"Le Balancement",def:"Prone rocking on the front body: deep spinal extension and hip flexor stretch."},
 {en:"Leg Pull Back",fr:"Traction des Jambes Arrière",def:"Reverse plank: alternating leg lifts while the hips stay lifted and stable."},
 {en:"Kneeling Side Kicks",fr:"Coups de Pied Latéraux à Genoux",def:"Kneeling side position: free leg swings forward and back for hip mobility."},
-{en:"Mermaid",fr:"La Sirène",def:"Seated side stretch reaching one arm overhead — opens the intercostal space."},
-{en:"Chest Lift",fr:"Élévation de la Poitrine",def:"Foundational abdominal curl — base position for The Hundred and abdominal series."},
-{en:"Shoulder Bridge Prep",fr:"Prépa Pont d'Épaules",def:"Pelvic curl into a bridge — foundational version, feet on the mat throughout."},
-{en:"Plank",fr:"La Planche",def:"Full body stability hold — straight line from head to heels, powerhouse engaged."},
+{en:"Mermaid",fr:"La Sirène",def:"Seated side stretch reaching one arm overhead: opens the intercostal space."},
+{en:"Chest Lift",fr:"Élévation de la Poitrine",def:"Foundational abdominal curl: base position for The Hundred and abdominal series."},
+{en:"Shoulder Bridge Prep",fr:"Prépa Pont d'Épaules",def:"Pelvic curl into a bridge: foundational version, feet on the mat throughout."},
+{en:"Plank",fr:"La Planche",def:"Full body stability hold: straight line from head to heels, powerhouse engaged."},
 {en:"Breast Stroke Prep",fr:"Prépa Brasse",def:"Prone: hands beside chest, lift the upper body in gentle spinal extension."},
-{en:"Hip Flexor Stretch",fr:"Étirement Fléchisseurs de Hanche",def:"Kneeling lunge stretch — releases the psoas after supine abdominal work."},
-{en:"Pelvic Clock",fr:"L'Horloge Pelvienne",def:"Small tilts of the pelvis in all directions — mobility and body-awareness exercise."},
+{en:"Hip Flexor Stretch",fr:"Étirement Fléchisseurs de Hanche",def:"Kneeling lunge stretch: releases the psoas after supine abdominal work."},
+{en:"Pelvic Clock",fr:"L'Horloge Pelvienne",def:"Small tilts of the pelvis in all directions: mobility and body-awareness exercise."},
 {en:"Cat-Cow",fr:"Chat-Vache",def:"On all fours: alternate between spinal flexion and extension with the breath."},
-{en:"Footwork",fr:"Le Travail des Pieds",def:"Foundational standing or supine heel/toe series — warms up the feet and calves."},
+{en:"Footwork",fr:"Le Travail des Pieds",def:"Foundational standing or supine heel/toe series: warms up the feet and calves."},
 ],
 teaching:[
 {en:"Begin in a supine position",fr:"Commencez allongé(e) sur le dos",def:"Lying on the back, face up. Standard starting position for mat class."},
-{en:"Inhale to prepare",fr:"Inspirez pour préparer",def:"Breath preparation before movement begins — sets the rhythm."},
-{en:"Exhale and...",fr:"Expirez et...",def:"Cue for the action phase — exertion on the exhale."},
+{en:"Inhale to prepare",fr:"Inspirez pour préparer",def:"Breath preparation before movement begins: sets the rhythm."},
+{en:"Exhale and...",fr:"Expirez et...",def:"Cue for the action phase: exertion on the exhale."},
 {en:"Modify by bending your knees",fr:"Modifiez en pliant les genoux",def:"Modification to reduce difficulty or protect the lower back."},
 {en:"For a challenge, extend both legs",fr:"Pour plus de défi, étendez les deux jambes",def:"Progression cue for more advanced students."},
 {en:"Take three more breaths here",fr:"Prenez encore trois respirations ici",def:"Hold instruction with breath count."},
 {en:"Let's transition into...",fr:"Passons à... / Enchaînons avec...",def:"Moving to the next exercise."},
 {en:"Come back to center",fr:"Revenez au centre",def:"Returning to neutral or starting position."},
-{en:"Well done, everyone",fr:"Très bien, tout le monde",def:"Encouragement — acknowledge group effort."},
-{en:"Notice how your body feels",fr:"Observez les sensations dans votre corps",def:"Body awareness cue — proprioception check."},
-{en:"If you feel any discomfort, ease off",fr:"Si vous ressentez de l'inconfort, réduisez l'effort",def:"Safety cue — permission to modify."},
+{en:"Well done, everyone",fr:"Très bien, tout le monde",def:"Encouragement: acknowledge group effort."},
+{en:"Notice how your body feels",fr:"Observez les sensations dans votre corps",def:"Body awareness cue: proprioception check."},
+{en:"If you feel any discomfort, ease off",fr:"Si vous ressentez de l'inconfort, réduisez l'effort",def:"Safety cue: permission to modify."},
 {en:"Listen to your body",fr:"Écoutez votre corps",def:"Self-care cue encouraging body awareness over performance."},
 {en:"Keep your gaze soft",fr:"Gardez le regard doux",def:"Soften the eye focus to reduce neck tension."},
-{en:"With control, lower down",fr:"Avec contrôle, descendez",def:"Eccentric control cue — slowing the lowering phase."},
+{en:"With control, lower down",fr:"Avec contrôle, descendez",def:"Eccentric control cue: slowing the lowering phase."},
 {en:"Hold this position for 5 counts",fr:"Maintenez cette position pendant 5 temps",def:"Static hold instruction with counting."},
 {en:"Press your feet firmly into the mat",fr:"Appuyez fermement les pieds dans le tapis",def:"Grounding cue for stability."},
-{en:"Stack your vertebrae one by one",fr:"Empilez les vertèbres une à une",def:"Rolling up cue — sequential spinal articulation."},
-{en:"Keep your shoulders away from your ears",fr:"Gardez les épaules loin des oreilles",def:"Trapezius release cue — very common in class."},
+{en:"Stack your vertebrae one by one",fr:"Empilez les vertèbres une à une",def:"Rolling up cue: sequential spinal articulation."},
+{en:"Keep your shoulders away from your ears",fr:"Gardez les épaules loin des oreilles",def:"Trapezius release cue: very common in class."},
 {en:"Contraindication",fr:"Contre-indication",def:"A condition that makes a particular exercise inadvisable."},
 {en:"Modification",fr:"Modification / Variante",def:"An adapted version of an exercise to suit a student's limitations."},
 {en:"Progression",fr:"Progression / Niveau avancé",def:"A more challenging version of an exercise."},
-{en:"Imagine your spine is growing taller",fr:"Imaginez que votre colonne grandit",def:"Elongation imagery — visualization cue."},
+{en:"Imagine your spine is growing taller",fr:"Imaginez que votre colonne grandit",def:"Elongation imagery: visualization cue."},
 {en:"Let gravity do the work",fr:"Laissez la gravité faire le travail",def:"Passive release or stretch cue."},
 {en:"Come to a standing position",fr:"Venez en position debout",def:"Transition cue to standing."},
 ],
 smalltalk:[
 {en:"Good morning, everyone!",fr:"Bonjour tout le monde !",def:"Warm opening greeting to set a welcoming atmosphere."},
 {en:"How is everyone feeling today?",fr:"Comment vous sentez-vous aujourd'hui ?",def:"Check-in to gauge students' energy before class."},
-{en:"Has anyone had any injuries I should know about?",fr:"Est-ce que quelqu'un a des blessures dont je devrais être informé(e) ?",def:"Safety check — essential at the start of every class."},
+{en:"Has anyone had any injuries I should know about?",fr:"Est-ce que quelqu'un a des blessures dont je devrais être informé(e) ?",def:"Safety check: essential at the start of every class."},
 {en:"Any questions before we start?",fr:"Des questions avant de commencer ?",def:"Opening invitation for student questions."},
 {en:"Please remove your shoes and socks.",fr:"Merci de retirer vos chaussures et chaussettes.",def:"Standard setup instruction for mat class."},
 {en:"Grab a mat and find your space.",fr:"Prenez un tapis et trouvez votre place.",def:"Class setup instruction."},
-{en:"Take a moment to arrive.",fr:"Prenez un moment pour arriver.",def:"Mindfulness opening — inviting students to settle in."},
+{en:"Take a moment to arrive.",fr:"Prenez un moment pour arriver.",def:"Mindfulness opening: inviting students to settle in."},
 {en:"Leave the outside world at the door.",fr:"Laissez le monde extérieur à la porte.",def:"Classic Pilates invitation to be fully present."},
 {en:"Have you done Pilates before?",fr:"Avez-vous déjà fait du Pilates ?",def:"Question to assess experience level."},
-{en:"Let me know if anything doesn't feel right.",fr:"N'hésitez pas à me le dire si quelque chose ne va pas.",def:"Safety reminder — permission to speak up."},
-{en:"Feel free to rest whenever you need to.",fr:"N'hésitez pas à vous reposer quand vous en avez besoin.",def:"Permission to modify or rest — inclusive teaching."},
+{en:"Let me know if anything doesn't feel right.",fr:"N'hésitez pas à me le dire si quelque chose ne va pas.",def:"Safety reminder: permission to speak up."},
+{en:"Feel free to rest whenever you need to.",fr:"N'hésitez pas à vous reposer quand vous en avez besoin.",def:"Permission to modify or rest: inclusive teaching."},
 {en:"How did that feel?",fr:"Comment vous avez senti ça ?",def:"Post-exercise check-in for body awareness."},
 {en:"Take your time coming up.",fr:"Prenez votre temps pour vous relever.",def:"End-of-class instruction to rise slowly and safely."},
-{en:"Don't rush — take a moment in final rest.",fr:"Ne vous précipitez pas — prenez un moment de repos final.",def:"Encouraging a quiet moment before leaving."},
-{en:"That's it for today — wonderful work, everyone!",fr:"C'est tout pour aujourd'hui — excellent travail, tout le monde !",def:"Closing the class with group encouragement."},
+{en:"Don't rush: take a moment in final rest.",fr:"Ne vous précipitez pas: prenez un moment de repos final.",def:"Encouraging a quiet moment before leaving."},
+{en:"That's it for today: wonderful work, everyone!",fr:"C'est tout pour aujourd'hui: excellent travail, tout le monde !",def:"Closing the class with group encouragement."},
 {en:"Great effort today.",fr:"Bel effort aujourd'hui.",def:"Individual encouragement as students leave."},
 {en:"Roll up your mat when you're ready.",fr:"Roulez votre tapis quand vous êtes prêt(e).",def:"Post-class cleanup instruction."},
 {en:"See you next time!",fr:"À la prochaine !",def:"Class farewell."},
-{en:"Come back for more practice — you're doing great.",fr:"Revenez pratiquer — vous faites de vraies progrès.",def:"Motivational closing to encourage return."},
+{en:"Come back for more practice: you're doing great.",fr:"Revenez pratiquer: vous faites de vraies progrès.",def:"Motivational closing to encourage return."},
 {en:"Is there anything specific you'd like to work on today?",fr:"Y a-t-il quelque chose de spécifique sur lequel vous aimeriez travailler aujourd'hui ?",def:"Opening question to personalize the session."},
 ]
 ,corrections:[
-{en:"I notice your lower back is arching — can you imprint slightly?",fr:"Je vois votre dos se cambrer — pouvez-vous imprimer légèrement ?",def:"Verbal correction for anterior pelvic tilt or lumbar hyperextension during supine work."},
-{en:"Release the tension in your neck — let your head be heavy.",fr:"Relâchez la tension dans la nuque — laissez votre tête peser lourd.",def:"Correction for neck gripping or chin jutting in abdominal curl-up work."},
-{en:"Your shoulders are creeping up — let them melt down away from your ears.",fr:"Vos épaules remontent — laissez-les fondre, loin des oreilles.",def:"Trapezius tension correction — extremely common in class."},
-{en:"Check your ribs — can you close them toward your pelvis?",fr:"Vérifiez vos côtes — pouvez-vous les fermer vers le bassin ?",def:"Correction for rib flaring and loss of abdominal connection."},
-{en:"I can see you're holding your breath — keep breathing!",fr:"Je vois que vous retenez votre souffle — continuez à respirer !",def:"Breath-holding correction — especially common in challenging exercises."},
-{en:"Keep your hips level — don't let one side lift.",fr:"Gardez les hanches à la même hauteur — ne laissez pas un côté se lever.",def:"Hip hike correction for side-lying or single-leg exercises."},
-{en:"Your knees are falling inward — gently press them apart.",fr:"Vos genoux tombent vers l'intérieur — écartez-les doucement.",def:"Knee tracking correction in supine or standing exercises."},
-{en:"Soften your grip — you're working too hard in the wrong place.",fr:"Relâchez votre prise — vous travaillez trop fort au mauvais endroit.",def:"Over-gripping correction for hands, feet, glutes, or jaw."},
-{en:"Try not to use momentum — slow it right down.",fr:"Essayez de ne pas utiliser l'élan — ralentissez vraiment.",def:"Momentum correction — particularly in Roll Up or Single Leg Circle."},
-{en:"Your chin is poking forward — find a small nod.",fr:"Votre menton se projette en avant — trouvez une légère flexion.",def:"Cervical alignment correction for forward head posture."},
-{en:"Your pelvis is tilting — can you find neutral for me?",fr:"Votre bassin bascule — pouvez-vous trouver la position neutre ?",def:"Pelvic tilt correction — applies to both anterior and posterior tilt."},
-{en:"Great effort! Just ease off the tension — less is more here.",fr:"Bel effort ! Relâchez simplement la tension — ici, moins c'est plus.",def:"Encouraging over-effort correction — useful when students strain or compensate."},
-{en:"Keep your lower abdominals engaged — don't let them dome.",fr:"Gardez les abdominaux inférieurs engagés — ne les laissez pas gonfler.",def:"Diastasis-awareness cue for deep core engagement during loading."},
+{en:"I notice your lower back is arching: can you imprint slightly?",fr:"Je vois votre dos se cambrer: pouvez-vous imprimer légèrement ?",def:"Verbal correction for anterior pelvic tilt or lumbar hyperextension during supine work."},
+{en:"Release the tension in your neck: let your head be heavy.",fr:"Relâchez la tension dans la nuque: laissez votre tête peser lourd.",def:"Correction for neck gripping or chin jutting in abdominal curl-up work."},
+{en:"Your shoulders are creeping up: let them melt down away from your ears.",fr:"Vos épaules remontent: laissez-les fondre, loin des oreilles.",def:"Trapezius tension correction: extremely common in class."},
+{en:"Check your ribs: can you close them toward your pelvis?",fr:"Vérifiez vos côtes: pouvez-vous les fermer vers le bassin ?",def:"Correction for rib flaring and loss of abdominal connection."},
+{en:"I can see you're holding your breath: keep breathing!",fr:"Je vois que vous retenez votre souffle: continuez à respirer !",def:"Breath-holding correction: especially common in challenging exercises."},
+{en:"Keep your hips level: don't let one side lift.",fr:"Gardez les hanches à la même hauteur: ne laissez pas un côté se lever.",def:"Hip hike correction for side-lying or single-leg exercises."},
+{en:"Your knees are falling inward: gently press them apart.",fr:"Vos genoux tombent vers l'intérieur: écartez-les doucement.",def:"Knee tracking correction in supine or standing exercises."},
+{en:"Soften your grip: you're working too hard in the wrong place.",fr:"Relâchez votre prise: vous travaillez trop fort au mauvais endroit.",def:"Over-gripping correction for hands, feet, glutes, or jaw."},
+{en:"Try not to use momentum: slow it right down.",fr:"Essayez de ne pas utiliser l'élan: ralentissez vraiment.",def:"Momentum correction: particularly in Roll Up or Single Leg Circle."},
+{en:"Your chin is poking forward: find a small nod.",fr:"Votre menton se projette en avant: trouvez une légère flexion.",def:"Cervical alignment correction for forward head posture."},
+{en:"Your pelvis is tilting: can you find neutral for me?",fr:"Votre bassin bascule: pouvez-vous trouver la position neutre ?",def:"Pelvic tilt correction: applies to both anterior and posterior tilt."},
+{en:"Great effort! Just ease off the tension: less is more here.",fr:"Bel effort ! Relâchez simplement la tension: ici, moins c'est plus.",def:"Encouraging over-effort correction: useful when students strain or compensate."},
+{en:"Keep your lower abdominals engaged: don't let them dome.",fr:"Gardez les abdominaux inférieurs engagés: ne les laissez pas gonfler.",def:"Diastasis-awareness cue for deep core engagement during loading."},
 {en:"Root down through your sitting bones.",fr:"Ancrez-vous dans vos ischions.",def:"Grounding cue for seated exercises to prevent rocking or shifting."},
 ]
 };
@@ -613,24 +613,24 @@ intermediate:{title:"Intermediate Class",sub:"Group · Intermediate",prompt:`You
 STUDENTS: **Alex** (precise, says "What exactly do you mean?" to vague cues), **Nina** (strong but grips neck in abdominal work), **David** (athletic, uses momentum if not reminded).
 
 RULES:
-- These students know basics — no need to explain fundamentals unless asked.
+- These students know basics: no need to explain fundamentals unless asked.
 - After every 5 exchanges, add an [💡 ADVANCED TIP] for more technical language.
-- Concise responses — 1-2 sentences.`},
+- Concise responses: 1-2 sentences.`},
 certification:{title:"Certification Exam",sub:"Observed · Formal",prompt:`You play TWO roles:
 
-**[EXAMINER]** — A rigorous Pilates teacher trainer evaluating Julie's exam.
-**[Student]** — A cooperative student who occasionally makes errors Julie should correct.
+**[EXAMINER]**: A rigorous Pilates teacher trainer evaluating Julie's exam.
+**[Student]**: A cooperative student who occasionally makes errors Julie should correct.
 
 Start with: [EXAMINER]: "Please begin when ready. Teach a foundational mat sequence."
 
-[EXAMINER] interrupts every 4-5 exchanges: "What is the contraindication for this exercise with disc herniation?", "Explain your breath cuing choice.", "The student's pelvis is in anterior tilt — correct that verbally.", "What modification for osteoporosis?"
+[EXAMINER] interrupts every 4-5 exchanges: "What is the contraindication for this exercise with disc herniation?", "Explain your breath cuing choice.", "The student's pelvis is in anterior tilt: correct that verbally.", "What modification for osteoporosis?"
 
 [Student] makes subtle errors: looking at ceiling instead of chin-to-chest, arching low back, holding breath.
 
-After 10 teacher turns: formal [ASSESSMENT] — ✅ 2 strengths, ⚠️ 2 areas to develop, 📚 1 vocab recommendation.`}
+After 10 teacher turns: formal [ASSESSMENT]: ✅ 2 strengths, ⚠️ 2 areas to develop, 📚 1 vocab recommendation.`}
 ,private:{title:"Private Lesson",sub:"One student · Personalized",prompt:`You play ONE student in a private Pilates lesson with Julie as teacher.
 
-**STUDENT: Morgan** — a 35-year-old runner with tight hip flexors and a tendency toward anterior pelvic tilt. Motivated, asks intelligent questions.
+**STUDENT: Morgan**: a 35-year-old runner with tight hip flexors and a tendency toward anterior pelvic tilt. Motivated, asks intelligent questions.
 
 RULES:
 - Respond as Morgan only. Ask follow-up questions naturally.
@@ -642,7 +642,7 @@ backpain:{title:"Back Pain Student",sub:"Modifications · Safety",prompt:`You pl
 
 **STUDENTS:**
 **Diane** (55, chronic low back pain, nervous about movement, needs constant reassurance and modifications)
-**Kevin** (28, no injuries but Diane's neighbor — supportive, occasionally asks "can I do the harder version?")
+**Kevin** (28, no injuries but Diane's neighbor: supportive, occasionally asks "can I do the harder version?")
 
 RULES:
 - Diane needs modification options for every exercise. If Julie doesn't offer one, Diane says "I'm not sure I can do that with my back..."
@@ -653,8 +653,8 @@ online:{title:"Virtual Class",sub:"Online · Camera challenges",prompt:`You play
 
 **STUDENTS:**
 **Priya** (good connection, engaged, camera on)
-**Ben** (camera off, responds in chat only — "typing: ...sure!" style)
-**Camille** (technical issues — occasionally says "sorry, you cut out!" or "can you repeat that?")
+**Ben** (camera off, responds in chat only: "typing: ...sure!" style)
+**Camille** (technical issues: occasionally says "sorry, you cut out!" or "can you repeat that?")
 
 RULES:
 - Simulate the slightly chaotic energy of an online class.
@@ -666,14 +666,14 @@ RULES:
 
 // ══════════ PRACTICE TOPICS ══════════
 const PT=[
-{id:'greeting',ico:'👋',t:'Opening the Class',d:'Welcome, tone-setting, first breathing exercise.',ctx:'opening a Pilates mat class — welcome, breathing explanation, first body scan'},
-{id:'hundred',ico:'💯',t:'The Hundred',d:'Set up, cue, and close The Hundred.',ctx:'explaining and cueing The Hundred — position, breath pump, modifications, how to end'},
-{id:'breathing',ico:'🌬',t:'Breathing Tutorial',d:'Teach lateral thoracic breathing from scratch.',ctx:'teaching lateral/thoracic breathing to beginners — how to expand the back ribs, coordinating with movement'},
-{id:'neutral',ico:'🦴',t:'Neutral Spine & Imprint',d:'Explain both positions and when to use each.',ctx:'explaining neutral spine vs imprint — how to find each, why it matters, common errors'},
-{id:'abdominals',ico:'💪',t:'Abdominal Series',d:'Single Leg Stretch through Criss Cross.',ctx:'cueing the full abdominal series — Single Leg Stretch, Double Leg Stretch, Scissors, Double Straight Leg, Criss Cross'},
-{id:'rollup',ico:'🔄',t:'Roll Up',d:'Full spinal articulation with alignment cues.',ctx:'explaining and cueing the Roll Up — from supine, articulation up and down, breath, modifications'},
-{id:'corrections',ico:'✏️',t:'Verbal Corrections',d:'Practice giving specific alignment corrections.',ctx:'giving verbal corrections — correcting anterior pelvic tilt, protracted shoulders, gripping the neck in abdominal work'},
-{id:'free',ico:'✨',t:'Free Sequence',d:'Teach any 10-minute sequence — full improv.',ctx:'teaching a free Pilates mat sequence of her own choosing'},
+{id:'greeting',ico:'👋',t:'Opening the Class',d:'Welcome, tone-setting, first breathing exercise.',ctx:'opening a Pilates mat class: welcome, breathing explanation, first body scan'},
+{id:'hundred',ico:'💯',t:'The Hundred',d:'Set up, cue, and close The Hundred.',ctx:'explaining and cueing The Hundred: position, breath pump, modifications, how to end'},
+{id:'breathing',ico:'🌬',t:'Breathing Tutorial',d:'Teach lateral thoracic breathing from scratch.',ctx:'teaching lateral/thoracic breathing to beginners: how to expand the back ribs, coordinating with movement'},
+{id:'neutral',ico:'🦴',t:'Neutral Spine & Imprint',d:'Explain both positions and when to use each.',ctx:'explaining neutral spine vs imprint: how to find each, why it matters, common errors'},
+{id:'abdominals',ico:'💪',t:'Abdominal Series',d:'Single Leg Stretch through Criss Cross.',ctx:'cueing the full abdominal series: Single Leg Stretch, Double Leg Stretch, Scissors, Double Straight Leg, Criss Cross'},
+{id:'rollup',ico:'🔄',t:'Roll Up',d:'Full spinal articulation with alignment cues.',ctx:'explaining and cueing the Roll Up: from supine, articulation up and down, breath, modifications'},
+{id:'corrections',ico:'✏️',t:'Verbal Corrections',d:'Practice giving specific alignment corrections.',ctx:'giving verbal corrections: correcting anterior pelvic tilt, protracted shoulders, gripping the neck in abdominal work'},
+{id:'free',ico:'✨',t:'Free Sequence',d:'Teach any 10-minute sequence: full improv.',ctx:'teaching a free Pilates mat sequence of her own choosing'},
 ];
 
 // ══════════ STATE ══════════
@@ -700,7 +700,7 @@ function go(id){
 // ══════════ API KEY ══════════
 function saveKey(){
   const k=document.getElementById('api-key-input').value.trim();
-  if(!k.startsWith('sk-ant-')){toast('Clé invalide — commence par sk-ant-');return;}
+  if(!k.startsWith('sk-ant-')){toast('Clé invalide: commence par sk-ant-');return;}
   localStorage.setItem('pc_key',k);go('home-screen');
 }
 function getKey(){return localStorage.getItem('pc_key')||'';}
@@ -829,7 +829,7 @@ function startSim(key){
   document.getElementById('c-title').textContent=s.title;
   document.getElementById('c-sub').textContent=s.sub;
   document.getElementById('msgs').innerHTML='';
-  addMsg('sys',`🎭 ${s.title}\n\nYou are the teacher — start whenever you're ready!`);
+  addMsg('sys',`🎭 ${s.title}\n\nYou are the teacher: start whenever you're ready!`);
   updateTtsBtn();
   go('chat-screen');
 }
@@ -870,7 +870,7 @@ async function getFeedback(){
   simLoading=true;const tid=addTyping();
   try{
     const tr=chatH.map(m=>`${m.role==='user'?'TEACHER':'STUDENT'}: ${m.content}`).join('\n\n');
-    const fb=await api([{role:'user',content:`Pilates teaching session:\n\n${tr}\n\nAs an English-speaking Pilates teacher trainer, give Julie specific feedback on:\n1. **Vocabulary** — terms used well, key terms missing\n2. **Cue clarity** — were alignment cues specific? Give examples.\n3. **English** — one pattern to refine\n4. **Flow** — pacing and transitions\n5. **Priority this week** — one phrase to practice\n\nBe encouraging. Quote the actual conversation.`}],'You are an expert Pilates teacher trainer and English coach.',700);
+    const fb=await api([{role:'user',content:`Pilates teaching session:\n\n${tr}\n\nAs an English-speaking Pilates teacher trainer, give Julie specific feedback on:\n1. **Vocabulary**: terms used well, key terms missing\n2. **Cue clarity**: were alignment cues specific? Give examples.\n3. **English**: one pattern to refine\n4. **Flow**: pacing and transitions\n5. **Priority this week**: one phrase to practice\n\nBe encouraging. Quote the actual conversation.`}],'You are an expert Pilates teacher trainer and English coach.',700);
     removeTyping(tid);addMsg('fb','📊 Session Feedback\n\n'+fb);
   }catch(e){removeTyping(tid);addMsg('sys',`⚠️ ${e.message}`);}
   simLoading=false;
@@ -966,7 +966,7 @@ function startPractice(id){
 function toggleRec(){recOn?stopRec():startRec();}
 function startRec(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Voice recognition not available — needs Chrome + HTTPS');return;}
+  if(!SR){toast('Voice recognition not available: needs Chrome + HTTPS');return;}
   recText='';recInt='';recOn=true;
   setRecBtn('rec');
   document.getElementById('rst').textContent='Listening...';
@@ -1001,11 +1001,11 @@ function renderRec(){
 }
 async function sendDebrief(){
   const txt=recText.trim();
-  if(txt.length<15){toast('Too short — speak more!');setRecBtn('idle');document.getElementById('rst').textContent='Tap to start';return;}
+  if(txt.length<15){toast('Too short: speak more!');setRecBtn('idle');document.getElementById('rst').textContent='Tap to start';return;}
   try{
     const fb=await api([{role:'user',content:`You are an expert Pilates teacher trainer and English coach. Julie just completed a solo practice session.
 
-Topic: "${curTopic.t}" — ${curTopic.ctx}
+Topic: "${curTopic.t}": ${curTopic.ctx}
 Duration: ${recSec} seconds
 
 TRANSCRIPT:
@@ -1018,8 +1018,8 @@ Provide a structured debrief:
 • Key terms missing for this topic
 
 **2. Cue Quality**
-• Strongest cue — quote it directly
-• One cue to improve — quote hers, then give a better version
+• Strongest cue: quote it directly
+• One cue to improve: quote hers, then give a better version
 
 **3. English Expression**
 • One grammar/phrasing pattern to refine (give a specific example from her transcript)
@@ -1037,7 +1037,7 @@ Be encouraging. Quote her actual words.`}],'You are an expert Pilates teacher tr
     go('debrief-screen');
   }catch(e){
     document.getElementById('db-topic').textContent=curTopic.t;
-    document.getElementById('dbody').innerHTML=`<p>⚠️ ${hesc(e.message)}</p><p>Your transcript was captured — try again or check your API key.</p>`;
+    document.getElementById('dbody').innerHTML=`<p>⚠️ ${hesc(e.message)}</p><p>Your transcript was captured: try again or check your API key.</p>`;
     go('debrief-screen');
   }
 }
@@ -1149,7 +1149,7 @@ function pcShow(){
 function pcListen(){const c=pcCards[pcIdx%pcCards.length];pronounce(c?.tts||c?.en||'');}
 function togglePronMic(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Micro non disponible — utilise Chrome sur HTTPS');return;}
+  if(!SR){toast('Micro non disponible: utilise Chrome sur HTTPS');return;}
   if(pcOn){pcStopMic();return;}
   pcRec=new SR();pcRec.lang='en-US';pcRec.continuous=false;pcRec.interimResults=false;
   pcRec.onresult=e=>{const heard=e.results[0][0].transcript;pcStopMic();pcEvaluate(heard);};
@@ -1215,7 +1215,7 @@ const CUE_SITUATIONS=[
   "A student's shoulders are hunching toward their ears in Swan. Correct this verbally.",
   "You want to cue the transition from The Hundred into Roll Up. What do you say?",
   "A beginner student looks confused about 'neutral spine'. Explain it in simple terms.",
-  "A student is using momentum in Single Leg Circle — the pelvis is rocking. How do you stop this?",
+  "A student is using momentum in Single Leg Circle: the pelvis is rocking. How do you stop this?",
   "You need to cue lateral breathing at the start of class. What do you say exactly?",
   "A student's ribs are flaring during Chest Lift. Give a correction cue.",
   "Cue your students into a Shoulder Bridge step by step.",
@@ -1249,7 +1249,7 @@ async function sendCue(){
   document.getElementById('cue-feedback').textContent='Analyzing...';
   document.getElementById('cue-next').style.display='none';
   try{
-    const fb=await api([{role:'user',content:`SITUATION: ${situation}\n\nJULIE'S RESPONSE: "${text}"\n\nEvaluate her cue in 3 short parts:\n✅ **What worked** — quote the strongest part of her cue\n⚠️ **One improvement** — be specific (anatomy, clarity, breath, imagery)\n💡 **Suggested version** — give a polished alternative she can memorize\n\nBe encouraging and concise. Max 5 sentences total.`}],CUE_SYSTEM,350);
+    const fb=await api([{role:'user',content:`SITUATION: ${situation}\n\nJULIE'S RESPONSE: "${text}"\n\nEvaluate her cue in 3 short parts:\n✅ **What worked**: quote the strongest part of her cue\n⚠️ **One improvement**: be specific (anatomy, clarity, breath, imagery)\n💡 **Suggested version**: give a polished alternative she can memorize\n\nBe encouraging and concise. Max 5 sentences total.`}],CUE_SYSTEM,350);
     document.getElementById('cue-feedback').innerHTML=md2h(fb);
   }catch(e){
     document.getElementById('cue-feedback').textContent=`⚠️ ${e.message}`;
