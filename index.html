@@ -167,6 +167,22 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .dfoot{padding:12px 15px 26px;display:flex;gap:9px;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0}
 .dfoot .btn{margin:0}
 
+/* PRONUNCIATION CHECK */
+.pron-card{background:var(--surface);border-radius:var(--r);padding:28px 20px;border:1.5px solid var(--border);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
+.pron-term{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1.2}
+.pron-fr{font-size:14px;color:var(--t2)}
+.pron-ph{font-size:12px;font-style:italic;opacity:.55;letter-spacing:.3px;min-height:16px}
+.pron-mic{width:72px;height:72px;border-radius:50%;border:none;font-size:28px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pron-mic.idle{background:var(--text);color:#fff}
+.pron-mic.listening{background:var(--red);color:#fff;animation:pulse 1s infinite}
+.pron-result{border-radius:var(--r);padding:14px 16px;font-size:13px;line-height:1.6;width:100%;text-align:center}
+.pron-ok{background:#EFF6EF;color:#2A6A2A;border:1.5px solid #C0DAC0}
+.pron-close{background:#FFF8E7;color:#7A5A00;border:1.5px solid #E8D080}
+.pron-miss{background:#FAF0EE;color:var(--red);border:1.5px solid #E8C0B8}
+.pron-score{font-size:13px;color:var(--t2);font-weight:500}
+.tag-free{background:#EFF6EF;color:#2A6A2A}
+.tag-ai{background:#F0EAE4;color:var(--accent)}
+
 /* TOAST */
 .toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;z-index:200;pointer-events:none;white-space:nowrap;max-width:88vw;text-align:center}
 .toast.show{opacity:1}
@@ -191,28 +207,33 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="h-body">
     <div class="mc" onclick="go('flashcard-screen')">
       <div class="ico">📚</div><h2>Flashcards</h2>
-      <p>110+ terms across 5 categories with pronunciation audio and exercise demos.</p>
-      <div class="tags"><span class="tag">🔊 Prononciation</span><span class="tag">▶ Videos</span><span class="tag">EN↔FR</span></div>
+      <p>150+ termes, 7 catégories, répétition espacée et démos vidéo.</p>
+      <div class="tags"><span class="tag tag-free">Gratuit</span><span class="tag">🔊 Audio</span><span class="tag">▶ Videos</span><span class="tag">EN↔FR</span></div>
     </div>
     <div class="mc" onclick="go('quiz-screen')">
       <div class="ico">⚡</div><h2>Quick Quiz</h2>
-      <p>Multiple choice with pronunciation — entends le terme avant de deviner.</p>
-      <div class="tags"><span class="tag">🔊 Audio</span><span class="tag">Score</span></div>
+      <p>3 modes : EN→FR, FR→EN, et reconnaître la définition.</p>
+      <div class="tags"><span class="tag tag-free">Gratuit</span><span class="tag">🔊 Audio</span><span class="tag">Score</span></div>
+    </div>
+    <div class="mc" onclick="go('proncheck-screen')">
+      <div class="ico">🗣</div><h2>Pronunciation Check</h2>
+      <p>Dis le terme à voix haute — l'app valide ta prononciation instantanément.</p>
+      <div class="tags"><span class="tag tag-free">Gratuit</span><span class="tag">🎙 Micro</span><span class="tag">Feedback</span></div>
     </div>
     <div class="mc" onclick="go('simulation-screen')">
       <div class="ico">🎭</div><h2>Class Simulation</h2>
       <p>Tu enseignes, les élèves répondent à voix haute. 7 scénarios disponibles.</p>
-      <div class="tags"><span class="tag">🔊 Voix élèves</span><span class="tag">AI feedback</span><span class="tag">7 scénarios</span></div>
+      <div class="tags"><span class="tag tag-ai">Crédits API</span><span class="tag">🔊 Voix</span><span class="tag">7 scénarios</span></div>
     </div>
     <div class="mc" onclick="go('cue-screen')">
       <div class="ico">🎯</div><h2>Cue Builder</h2>
-      <p>Claude te donne une situation de classe — tu formules le cue ou la correction en anglais.</p>
-      <div class="tags"><span class="tag">Situations réelles</span><span class="tag">Feedback IA</span></div>
+      <p>Claude te donne une situation de classe — tu formules le cue en anglais.</p>
+      <div class="tags"><span class="tag tag-ai">Crédits API</span><span class="tag">Feedback IA</span></div>
     </div>
     <div class="mc" onclick="go('practice-screen')">
       <div class="ico">🎤</div><h2>Solo Practice</h2>
-      <p>Enregistre-toi en train d'enseigner — analyse complète de ton vocab et tes cues.</p>
-      <div class="tags"><span class="tag">Enregistrement</span><span class="tag">Debrief IA</span></div>
+      <p>Enregistre-toi en train d'enseigner — débrief IA de ton vocab et tes cues.</p>
+      <div class="tags"><span class="tag tag-ai">Débrief = crédits</span><span class="tag">Enregistrement</span></div>
     </div>
     <button class="btn btn-o" onclick="showSettings()" style="margin-top:4px">⚙ API Key</button>
   </div>
@@ -359,6 +380,29 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     <div class="iwrap"><textarea id="cueinput" placeholder="Type your cue or correction in English..." rows="1" oninput="autoRes(this)" onkeydown="handleCueKey(event)"></textarea></div>
     <button class="icbtn vbtn" id="cuevbtn" onclick="toggleCueVoice()">🎙</button>
     <button class="icbtn sbtn" onclick="sendCue()">↑</button>
+  </div>
+</div>
+
+<!-- ═══ PRONUNCIATION CHECK ═══ -->
+<div id="proncheck-screen" class="screen">
+  <div class="hdr">
+    <button class="back" onclick="go('home-screen')">←</button>
+    <h2>Prononciation</h2>
+    <div class="hdr-r"><span class="pron-score" id="pc-score">0 / 0</span></div>
+  </div>
+  <div class="ctabs" id="pc-tabs"></div>
+  <div class="qarea" style="align-items:center;gap:16px;padding-top:20px">
+    <div class="pron-card">
+      <div class="ccat" id="pc-cat">ANATOMY</div>
+      <div class="pron-term" id="pc-term">Neutral Spine</div>
+      <div class="pron-fr" id="pc-fr">Colonne neutre</div>
+      <div class="pron-ph" id="pc-ph"></div>
+      <button class="qpbtn" onclick="pcListen()">🔊 Écouter d'abord</button>
+    </div>
+    <button class="pron-mic idle" id="pc-mic" onclick="togglePronMic()">🎙</button>
+    <div class="rst" id="pc-status">Tape le micro et prononce le terme en anglais</div>
+    <div id="pc-result" style="display:none;width:100%"></div>
+    <button class="btn btn-l" id="pc-next" onclick="pcNext()" style="display:none;width:100%">Suivant →</button>
   </div>
 </div>
 
@@ -645,6 +689,7 @@ function go(id){
   if(id==='quiz-screen')initQ();
   if(id==='practice-screen')buildTopics();
   if(id==='cue-screen')initCue();
+  if(id==='proncheck-screen')initPronCheck();
 }
 
 // ══════════ API KEY ══════════
@@ -1065,6 +1110,95 @@ function toast(msg,ms=2800){
   const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
   clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),ms);
 }
+
+// ══════════ PRONUNCIATION CHECK ══════════
+let pcCat='anatomy',pcCards=[],pcIdx=0,pcRight=0,pcTotal=0,pcRec=null,pcOn=false;
+
+function initPronCheck(){
+  pcCat='anatomy';pcRight=0;pcTotal=0;
+  renderPcTabs();pcLoadCat('anatomy');
+}
+function renderPcTabs(){
+  document.getElementById('pc-tabs').innerHTML=CATS.map(c=>
+    `<button class="tpill ${c.id===pcCat?'active':''}" onclick="pcLoadCat('${c.id}')">${c.l}</button>`
+  ).join('');
+}
+function pcLoadCat(cat){
+  pcCat=cat;pcCards=shuf([...V[cat]]);pcIdx=0;pcRight=0;pcTotal=0;
+  renderPcTabs();
+  document.getElementById('pc-score').textContent='0 / 0';
+  pcShow();
+}
+function pcShow(){
+  if(!pcCards.length)return;
+  const c=pcCards[pcIdx%pcCards.length];
+  document.getElementById('pc-cat').textContent=pcCat.toUpperCase();
+  document.getElementById('pc-term').textContent=c.en;
+  document.getElementById('pc-fr').textContent=c.fr;
+  document.getElementById('pc-ph').textContent=c.pron?`/ ${c.pron} /`:'';
+  document.getElementById('pc-result').style.display='none';
+  document.getElementById('pc-next').style.display='none';
+  document.getElementById('pc-status').textContent='Tape le micro et prononce le terme en anglais';
+  const m=document.getElementById('pc-mic');m.className='pron-mic idle';m.textContent='🎙';
+}
+function pcListen(){const c=pcCards[pcIdx%pcCards.length];pronounce(c?.tts||c?.en||'');}
+function togglePronMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Micro non disponible — utilise Chrome sur HTTPS');return;}
+  if(pcOn){pcStopMic();return;}
+  pcRec=new SR();pcRec.lang='en-US';pcRec.continuous=false;pcRec.interimResults=false;
+  pcRec.onresult=e=>{const heard=e.results[0][0].transcript;pcStopMic();pcEvaluate(heard);};
+  pcRec.onend=()=>{if(pcOn){pcOn=false;const m=document.getElementById('pc-mic');m.className='pron-mic idle';m.textContent='🎙';}};
+  pcRec.onerror=e=>{if(e.error!=='aborted')toast(`Micro: ${e.error}`);pcStopMic();};
+  try{pcRec.start();pcOn=true;const m=document.getElementById('pc-mic');m.className='pron-mic listening';m.textContent='⏹';document.getElementById('pc-status').textContent='Écoute...';}
+  catch(e){pcStopMic();}
+}
+function pcStopMic(){
+  pcOn=false;if(pcRec)try{pcRec.stop();}catch(e){}
+  const m=document.getElementById('pc-mic');if(m){m.className='pron-mic idle';m.textContent='🎙';}
+}
+function pcEvaluate(heard){
+  const c=pcCards[pcIdx%pcCards.length];
+  const score=pronSim(heard,c);
+  pcTotal++;
+  const el=document.getElementById('pc-result');el.style.display='block';
+  let cls,msg;
+  if(score>=0.65){
+    pcRight++;cls='pron-ok';
+    msg=`✅ <strong>Bien !</strong> J'ai entendu : <em>"${heard}"</em>`;
+  }else if(score>=0.3){
+    cls='pron-close';
+    msg=`⚠️ <strong>Presque !</strong> J'ai entendu : <em>"${heard}"</em><br>Terme : <em>"${c.en}"</em>`;
+  }else{
+    cls='pron-miss';
+    msg=`❌ J'ai entendu : <em>"${heard}"</em><br>Attendu : <em>"${c.en}"</em><br>Écoute le 🔊 et réessaie.`;
+  }
+  el.className=`pron-result ${cls}`;el.innerHTML=msg;
+  document.getElementById('pc-score').textContent=`${pcRight} / ${pcTotal}`;
+  document.getElementById('pc-next').style.display='block';
+  document.getElementById('pc-status').textContent='';
+}
+function pronSim(heard,card){
+  const norm=s=>s.toLowerCase().replace(/[^a-z\s]/g,'').trim();
+  const h=norm(heard);
+  const targets=[norm(card.en)];
+  if(card.tts)targets.push(norm(card.tts));
+  let best=0;
+  for(const t of targets){
+    if(h===t){return 1;}
+    const hw=h.split(/\s+/).filter(Boolean);
+    const tw=t.split(/\s+/).filter(Boolean);
+    if(!tw.length)continue;
+    const twSet=new Set(tw);
+    const inter=hw.filter(w=>twSet.has(w)).length;
+    const union=new Set([...hw,...tw]).size;
+    let sc=union?inter/union:0;
+    if(tw.length&&hw.length&&hw[0]===tw[0])sc=Math.min(1,sc+0.25);
+    best=Math.max(best,sc);
+  }
+  return best;
+}
+function pcNext(){pcIdx=(pcIdx+1)%pcCards.length;pcShow();}
 
 // ══════════ CUE BUILDER ══════════
 const CUE_SYSTEM=`You are a Pilates teacher trainer creating realistic classroom situations for a student teacher named Julie to practice her verbal cueing in English. She has never taught before and is preparing for her Pilates certification.`;
