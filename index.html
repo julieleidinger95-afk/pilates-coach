@@ -179,15 +179,16 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .stat-l{font-size:10px;color:var(--t2);margin-top:3px;font-weight:500}
 
 /* MATCHING GAME */
-.match-info{padding:10px 16px 0;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 16px;flex:1;align-content:start}
-.mcard{border-radius:13px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;min-height:76px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11.5px;font-weight:500;padding:8px 6px;line-height:1.35;transition:all .2s;user-select:none;-webkit-user-select:none;color:var(--text)}
-.mcard.hidden{background:linear-gradient(135deg,var(--accent),#3D5E50);border-color:var(--accent);color:#fff;font-size:22px}
-.mcard.flipped{border-color:var(--accent);box-shadow:0 0 0 2.5px var(--accent);background:var(--al)}
-.mcard.matched{background:#EAF2EE;border-color:var(--green);color:var(--green);opacity:.55;cursor:default;font-size:11.5px}
-.mcard.wrong{border-color:var(--red);background:#FBF0EE;animation:shake .35s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.match-done{padding:32px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:13px;flex:1;justify-content:center}
+.match-top{padding:10px 16px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 14px 18px;overflow-y:auto;flex:1;align-content:start}
+.match-col-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--t2);padding:0 2px 6px;text-align:center}
+.mi{border-radius:12px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;font-weight:500;padding:10px 8px;line-height:1.35;transition:all .18s;user-select:none;-webkit-user-select:none;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.mi:active{transform:scale(.96)}
+.mi.sel{border-color:var(--accent);background:var(--al);color:var(--accent);box-shadow:0 0 0 2px var(--accent);font-weight:600}
+.mi.ok{border-color:var(--green);background:#EAF2EE;color:var(--green);cursor:default;opacity:.55;font-weight:600}
+.mi.bad{border-color:var(--red);background:#FBF0EE;animation:shake .32s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.match-done{padding:32px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;flex:1;justify-content:center}
 
 /* PRONUNCIATION CHECK */
 .pron-card{background:var(--surface);border-radius:var(--r);padding:28px 20px;border:1.5px solid var(--border);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
@@ -420,18 +421,25 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="hdr">
     <button class="back" onclick="go('home-screen')">←</button>
     <h2>Matching Game</h2>
-    <div class="hdr-r"><span style="font-size:14px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums" id="mt-timer">0:00</span></div>
+    <div class="hdr-r">
+      <span style="font-size:12px;color:var(--t2)" id="mt-pairs">0/8</span>
+      <span style="font-size:13px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;margin-left:8px" id="mt-timer">0:00</span>
+    </div>
   </div>
   <div class="ctabs" id="mt-tabs"></div>
-  <div class="match-info">
-    <span style="font-size:12px;color:var(--t2)" id="mt-pairs">0 / 6 paires</span>
+  <div class="pbar" style="margin:0;border-radius:0;height:3px"><div class="pfill" id="mt-prog" style="width:0%"></div></div>
+  <div class="match-top">
+    <span style="font-size:12px;color:var(--t2)">EN à gauche · FR à droite</span>
     <span style="font-size:12px;color:var(--t2)" id="mt-mistakes">0 erreur</span>
   </div>
-  <div class="match-grid" id="match-grid"></div>
+  <div class="match-cols" id="match-cols">
+    <div class="match-col-hdr">English</div>
+    <div class="match-col-hdr">Français</div>
+  </div>
   <div class="match-done" id="match-done" style="display:none">
     <div style="font-size:52px">🎉</div>
     <div style="font-size:22px;font-weight:700;letter-spacing:-.3px">Terminé !</div>
-    <div style="font-size:14px;color:var(--t2)" id="mt-result"></div>
+    <div style="font-size:14px;color:var(--t2);font-weight:500" id="mt-result"></div>
     <button class="btn btn-d" onclick="initMatch(mtCat)" style="margin-top:4px">Rejouer</button>
     <button class="btn btn-l" onclick="go('home-screen')">Accueil</button>
   </div>
@@ -1206,25 +1214,24 @@ function trackStat(type){
 }
 
 // ══════════ MATCHING GAME ══════════
-let mtCat='anatomy',mtCards=[],mtFlipped=[],mtMatched=0,mtMistakes=0,mtSec=0,mtTI=null,mtBusy=false;
+let mtCat='anatomy',mtLeft=[],mtRight=[],mtSelL=-1,mtMatched=0,mtMistakes=0,mtSec=0,mtTI=null,mtBusy=false;
+const MT_COUNT=8;
+
 function initMatch(cat){
   cat=cat||mtCat;mtCat=cat;
   clearInterval(mtTI);
-  mtFlipped=[];mtMatched=0;mtMistakes=0;mtSec=0;mtBusy=false;
+  mtSelL=-1;mtMatched=0;mtMistakes=0;mtSec=0;mtBusy=false;
   renderMtTabs();
   document.getElementById('match-done').style.display='none';
-  document.getElementById('match-grid').style.display='grid';
+  document.getElementById('match-cols').style.display='grid';
   document.getElementById('mt-timer').textContent='0:00';
   document.getElementById('mt-mistakes').textContent='0 erreur';
-  document.getElementById('mt-pairs').textContent='0 / 6 paires';
-  const pool=shuf([...V[cat]]).slice(0,6);
-  const raw=[];
-  pool.forEach((c,i)=>{
-    raw.push({id:i,type:'en',text:c.en,match:i,state:'hidden'});
-    raw.push({id:i,type:'fr',text:c.fr,match:i,state:'hidden'});
-  });
-  mtCards=shuf(raw).map((c,idx)=>({...c,idx}));
-  renderMtGrid();
+  document.getElementById('mt-pairs').textContent=`0/${MT_COUNT}`;
+  document.getElementById('mt-prog').style.width='0%';
+  const pool=shuf([...V[cat]]).slice(0,MT_COUNT);
+  mtLeft=pool.map((c,i)=>({id:i,text:c.en,state:'idle'}));
+  mtRight=shuf(pool.map((c,i)=>({id:i,text:c.fr,state:'idle'})));
+  renderMtCols();
   mtTI=setInterval(()=>{
     mtSec++;
     const m=Math.floor(mtSec/60);const s=String(mtSec%60).padStart(2,'0');
@@ -1236,48 +1243,45 @@ function renderMtTabs(){
     `<button class="tpill ${c.id===mtCat?'active':''}" onclick="initMatch('${c.id}')">${c.l}</button>`
   ).join('');
 }
-function renderMtGrid(){
-  document.getElementById('match-grid').innerHTML=mtCards.map(c=>{
-    const cls=c.state;
-    const txt=c.state==='hidden'?'🧘':c.text;
-    return `<div class="mcard ${cls}" onclick="pickMatch(${c.idx})">${txt}</div>`;
-  }).join('');
+function renderMtCols(){
+  const cols=document.getElementById('match-cols');
+  const lHtml=mtLeft.map((c,i)=>`<div class="mi ${c.state}" onclick="pickLeft(${i})">${c.text}</div>`).join('');
+  const rHtml=mtRight.map((c,i)=>`<div class="mi ${c.state}" onclick="pickRight(${i})">${c.text}</div>`).join('');
+  cols.innerHTML=`<div class="match-col-hdr">English</div><div class="match-col-hdr">Français</div>${lHtml}${rHtml}`;
 }
-function pickMatch(idx){
-  if(mtBusy)return;
-  const c=mtCards[idx];
-  if(!c||c.state!=='hidden'||mtFlipped.length>=2)return;
-  c.state='flipped';mtFlipped.push(idx);
-  renderMtGrid();
-  if(mtFlipped.length===2){
-    mtBusy=true;
-    const [a,b]=[mtCards[mtFlipped[0]],mtCards[mtFlipped[1]]];
-    if(a.match===b.match&&a.type!==b.type){
-      setTimeout(()=>{
-        a.state='matched';b.state='matched';
-        mtMatched+=2;mtFlipped=[];mtBusy=false;
-        document.getElementById('mt-pairs').textContent=`${mtMatched/2} / 6 paires`;
-        renderMtGrid();
-        if(mtMatched===mtCards.length)mtComplete();
-      },380);
-    }else{
-      mtMistakes++;
-      document.getElementById('mt-mistakes').textContent=`${mtMistakes} erreur${mtMistakes>1?'s':''}`;
-      const els=document.querySelectorAll('.mcard');
-      [mtFlipped[0],mtFlipped[1]].forEach(i=>{if(els[i])els[i].classList.add('wrong');});
-      setTimeout(()=>{
-        a.state='hidden';b.state='hidden';mtFlipped=[];mtBusy=false;
-        renderMtGrid();
-      },900);
-    }
+function pickLeft(i){
+  if(mtBusy||mtLeft[i].state==='ok')return;
+  mtSelL=i;
+  mtLeft.forEach((c,j)=>{if(c.state!=='ok')c.state=j===i?'sel':'idle';});
+  renderMtCols();
+}
+function pickRight(i){
+  if(mtBusy||mtRight[i].state==='ok'||mtSelL<0)return;
+  const l=mtLeft[mtSelL],r=mtRight[i];
+  if(l.id===r.id){
+    l.state='ok';r.state='ok';
+    mtMatched++;mtSelL=-1;
+    document.getElementById('mt-pairs').textContent=`${mtMatched}/${MT_COUNT}`;
+    document.getElementById('mt-prog').style.width=`${mtMatched/MT_COUNT*100}%`;
+    renderMtCols();
+    if(mtMatched===MT_COUNT)setTimeout(mtComplete,400);
+  }else{
+    mtBusy=true;mtMistakes++;
+    document.getElementById('mt-mistakes').textContent=`${mtMistakes} erreur${mtMistakes>1?'s':''}`;
+    l.state='bad';r.state='bad';
+    renderMtCols();
+    setTimeout(()=>{
+      l.state='sel';r.state='idle';mtBusy=false;
+      renderMtCols();
+    },600);
   }
 }
 function mtComplete(){
   clearInterval(mtTI);
-  document.getElementById('match-grid').style.display='none';
+  document.getElementById('match-cols').style.display='none';
   document.getElementById('match-done').style.display='flex';
   const m=Math.floor(mtSec/60);const s=String(mtSec%60).padStart(2,'0');
-  const stars=mtMistakes===0?'⭐⭐⭐':mtMistakes<=3?'⭐⭐':'⭐';
+  const stars=mtMistakes===0?'⭐⭐⭐':mtMistakes<=4?'⭐⭐':'⭐';
   document.getElementById('mt-result').textContent=`${stars}  ${m}:${s} · ${mtMistakes} erreur${mtMistakes!==1?'s':''}`;
 }
 
