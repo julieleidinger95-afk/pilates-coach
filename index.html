@@ -172,6 +172,23 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .dfoot{padding:12px 15px 26px;display:flex;gap:9px;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0}
 .dfoot .btn{margin:0}
 
+/* STATS STRIP */
+.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 18px 6px;flex-shrink:0}
+.stat-box{background:var(--surface);border-radius:14px;padding:12px 8px;text-align:center;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.stat-n{font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--text);line-height:1}
+.stat-l{font-size:10px;color:var(--t2);margin-top:3px;font-weight:500}
+
+/* MATCHING GAME */
+.match-info{padding:10px 16px 0;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 16px;flex:1;align-content:start}
+.mcard{border-radius:13px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;min-height:76px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11.5px;font-weight:500;padding:8px 6px;line-height:1.35;transition:all .2s;user-select:none;-webkit-user-select:none;color:var(--text)}
+.mcard.hidden{background:linear-gradient(135deg,var(--accent),#3D5E50);border-color:var(--accent);color:#fff;font-size:22px}
+.mcard.flipped{border-color:var(--accent);box-shadow:0 0 0 2.5px var(--accent);background:var(--al)}
+.mcard.matched{background:#EAF2EE;border-color:var(--green);color:var(--green);opacity:.55;cursor:default;font-size:11.5px}
+.mcard.wrong{border-color:var(--red);background:#FBF0EE;animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.match-done{padding:32px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:13px;flex:1;justify-content:center}
+
 /* PRONUNCIATION CHECK */
 .pron-card{background:var(--surface);border-radius:var(--r);padding:28px 20px;border:1.5px solid var(--border);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
 .pron-term{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1.2}
@@ -209,6 +226,11 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 <!-- ═══ HOME ═══ -->
 <div id="home-screen" class="screen">
   <div class="h-hero"><div class="logo">🧘</div><h1>Pilates Coach</h1><p>English vocabulary &amp; teaching practice</p></div>
+  <div class="stats-strip">
+    <div class="stat-box"><div class="stat-n" id="st-streak">0</div><div class="stat-l">🔥 jours</div></div>
+    <div class="stat-box"><div class="stat-n" id="st-cards">0</div><div class="stat-l">cartes vues</div></div>
+    <div class="stat-box"><div class="stat-n" id="st-score">—</div><div class="stat-l">quiz score</div></div>
+  </div>
   <div class="h-body">
     <div class="mc" onclick="go('flashcard-screen')">
       <div class="ico">📚</div><h2>Flashcards</h2>
@@ -224,6 +246,11 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <div class="ico">🗣</div><h2>Pronunciation Check</h2>
       <p>Dis le terme à voix haute : l'app valide ta prononciation instantanément.</p>
       <div class="tags"><span class="tag tag-free">Gratuit</span><span class="tag">🎙 Micro</span><span class="tag">Feedback</span></div>
+    </div>
+    <div class="mc" onclick="go('match-screen')">
+      <div class="ico">🎲</div><h2>Matching Game</h2>
+      <p>Associe les termes anglais à leur traduction française. Contre la montre.</p>
+      <div class="tags"><span class="tag tag-free">Gratuit</span><span class="tag">6 paires</span><span class="tag">Chrono</span></div>
     </div>
     <div class="mc" onclick="go('simulation-screen')">
       <div class="ico">🎭</div><h2>Class Simulation</h2>
@@ -385,6 +412,28 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     <div class="iwrap"><textarea id="cueinput" placeholder="Type your cue or correction in English..." rows="1" oninput="autoRes(this)" onkeydown="handleCueKey(event)"></textarea></div>
     <button class="icbtn vbtn" id="cuevbtn" onclick="toggleCueVoice()">🎙</button>
     <button class="icbtn sbtn" onclick="sendCue()">↑</button>
+  </div>
+</div>
+
+<!-- ═══ MATCHING GAME ═══ -->
+<div id="match-screen" class="screen">
+  <div class="hdr">
+    <button class="back" onclick="go('home-screen')">←</button>
+    <h2>Matching Game</h2>
+    <div class="hdr-r"><span style="font-size:14px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums" id="mt-timer">0:00</span></div>
+  </div>
+  <div class="ctabs" id="mt-tabs"></div>
+  <div class="match-info">
+    <span style="font-size:12px;color:var(--t2)" id="mt-pairs">0 / 6 paires</span>
+    <span style="font-size:12px;color:var(--t2)" id="mt-mistakes">0 erreur</span>
+  </div>
+  <div class="match-grid" id="match-grid"></div>
+  <div class="match-done" id="match-done" style="display:none">
+    <div style="font-size:52px">🎉</div>
+    <div style="font-size:22px;font-weight:700;letter-spacing:-.3px">Terminé !</div>
+    <div style="font-size:14px;color:var(--t2)" id="mt-result"></div>
+    <button class="btn btn-d" onclick="initMatch(mtCat)" style="margin-top:4px">Rejouer</button>
+    <button class="btn btn-l" onclick="go('home-screen')">Accueil</button>
   </div>
 </div>
 
@@ -695,6 +744,7 @@ function go(id){
   if(id==='practice-screen')buildTopics();
   if(id==='cue-screen')initCue();
   if(id==='proncheck-screen')initPronCheck();
+  if(id==='match-screen')initMatch();
 }
 
 // ══════════ API KEY ══════════
@@ -708,7 +758,7 @@ function showSettings(){document.getElementById('api-key-input').value=getKey();
 
 window.addEventListener('DOMContentLoaded',()=>{
   if(getKey())go('home-screen');
-  loadVoices();updateTtsBtn();buildTopics();
+  loadVoices();updateTtsBtn();buildTopics();loadStats();
 });
 
 // ══════════ FLASHCARDS ══════════
@@ -759,7 +809,7 @@ function flipCard(){document.getElementById('fcard').classList.toggle('flipped')
 function nextCard(k){
   if(!fcDeck.length)return;
   const c=fcDeck.shift();
-  if(k){fcKnown.add(c.en);}
+  if(k){fcKnown.add(c.en);trackStat('card');}
   else{const pos=Math.min(3,fcDeck.length);fcDeck.splice(pos,0,c);}
   showCard();
 }
@@ -816,7 +866,7 @@ function answerQ(btn,chosen,correct){
     else if(b.dataset.en===chosen&&chosen!==correct)b.classList.add('no');
     b.disabled=true;
   });
-  if(chosen===correct)qScore++;
+  if(chosen===correct){qScore++;trackStat('quiz_right');}else{trackStat('quiz_wrong');}
   document.getElementById('qs-lbl').textContent=`${qScore} / ${qTotal}`;
   document.getElementById('q-next').style.display='block';
 }
@@ -1114,6 +1164,121 @@ let toastT;
 function toast(msg,ms=2800){
   const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
   clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),ms);
+}
+
+// ══════════ STATS ══════════
+function loadStats(){
+  const today=new Date().toDateString();
+  const last=localStorage.getItem('pc_last');
+  const streak=parseInt(localStorage.getItem('pc_streak')||'0');
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  let s=streak;
+  if(last===today){/* already counted */}
+  else if(last===yesterday){s=streak+1;localStorage.setItem('pc_streak',s);}
+  else if(last){s=1;localStorage.setItem('pc_streak',s);}
+  else{s=1;localStorage.setItem('pc_streak',s);}
+  localStorage.setItem('pc_last',today);
+  updateStatsUI();
+}
+function updateStatsUI(){
+  const streak=parseInt(localStorage.getItem('pc_streak')||'0');
+  const cards=parseInt(localStorage.getItem('pc_cards')||'0');
+  const qr=parseInt(localStorage.getItem('pc_qright')||'0');
+  const qt=parseInt(localStorage.getItem('pc_qtotal')||'0');
+  const acc=qt>0?Math.round(qr/qt*100)+'%':'—';
+  const s=document.getElementById('st-streak');
+  const c=document.getElementById('st-cards');
+  const a=document.getElementById('st-score');
+  if(s)s.textContent=streak;
+  if(c)c.textContent=cards>999?Math.round(cards/1000)+'k':cards;
+  if(a)a.textContent=acc;
+}
+function trackStat(type){
+  if(type==='card'){
+    localStorage.setItem('pc_cards',parseInt(localStorage.getItem('pc_cards')||'0')+1);
+  }else if(type==='quiz_right'){
+    localStorage.setItem('pc_qright',parseInt(localStorage.getItem('pc_qright')||'0')+1);
+    localStorage.setItem('pc_qtotal',parseInt(localStorage.getItem('pc_qtotal')||'0')+1);
+  }else if(type==='quiz_wrong'){
+    localStorage.setItem('pc_qtotal',parseInt(localStorage.getItem('pc_qtotal')||'0')+1);
+  }
+  updateStatsUI();
+}
+
+// ══════════ MATCHING GAME ══════════
+let mtCat='anatomy',mtCards=[],mtFlipped=[],mtMatched=0,mtMistakes=0,mtSec=0,mtTI=null,mtBusy=false;
+function initMatch(cat){
+  cat=cat||mtCat;mtCat=cat;
+  clearInterval(mtTI);
+  mtFlipped=[];mtMatched=0;mtMistakes=0;mtSec=0;mtBusy=false;
+  renderMtTabs();
+  document.getElementById('match-done').style.display='none';
+  document.getElementById('match-grid').style.display='grid';
+  document.getElementById('mt-timer').textContent='0:00';
+  document.getElementById('mt-mistakes').textContent='0 erreur';
+  document.getElementById('mt-pairs').textContent='0 / 6 paires';
+  const pool=shuf([...V[cat]]).slice(0,6);
+  const raw=[];
+  pool.forEach((c,i)=>{
+    raw.push({id:i,type:'en',text:c.en,match:i,state:'hidden'});
+    raw.push({id:i,type:'fr',text:c.fr,match:i,state:'hidden'});
+  });
+  mtCards=shuf(raw).map((c,idx)=>({...c,idx}));
+  renderMtGrid();
+  mtTI=setInterval(()=>{
+    mtSec++;
+    const m=Math.floor(mtSec/60);const s=String(mtSec%60).padStart(2,'0');
+    document.getElementById('mt-timer').textContent=`${m}:${s}`;
+  },1000);
+}
+function renderMtTabs(){
+  document.getElementById('mt-tabs').innerHTML=CATS.map(c=>
+    `<button class="tpill ${c.id===mtCat?'active':''}" onclick="initMatch('${c.id}')">${c.l}</button>`
+  ).join('');
+}
+function renderMtGrid(){
+  document.getElementById('match-grid').innerHTML=mtCards.map(c=>{
+    const cls=c.state;
+    const txt=c.state==='hidden'?'🧘':c.text;
+    return `<div class="mcard ${cls}" onclick="pickMatch(${c.idx})">${txt}</div>`;
+  }).join('');
+}
+function pickMatch(idx){
+  if(mtBusy)return;
+  const c=mtCards[idx];
+  if(!c||c.state!=='hidden'||mtFlipped.length>=2)return;
+  c.state='flipped';mtFlipped.push(idx);
+  renderMtGrid();
+  if(mtFlipped.length===2){
+    mtBusy=true;
+    const [a,b]=[mtCards[mtFlipped[0]],mtCards[mtFlipped[1]]];
+    if(a.match===b.match&&a.type!==b.type){
+      setTimeout(()=>{
+        a.state='matched';b.state='matched';
+        mtMatched+=2;mtFlipped=[];mtBusy=false;
+        document.getElementById('mt-pairs').textContent=`${mtMatched/2} / 6 paires`;
+        renderMtGrid();
+        if(mtMatched===mtCards.length)mtComplete();
+      },380);
+    }else{
+      mtMistakes++;
+      document.getElementById('mt-mistakes').textContent=`${mtMistakes} erreur${mtMistakes>1?'s':''}`;
+      const els=document.querySelectorAll('.mcard');
+      [mtFlipped[0],mtFlipped[1]].forEach(i=>{if(els[i])els[i].classList.add('wrong');});
+      setTimeout(()=>{
+        a.state='hidden';b.state='hidden';mtFlipped=[];mtBusy=false;
+        renderMtGrid();
+      },900);
+    }
+  }
+}
+function mtComplete(){
+  clearInterval(mtTI);
+  document.getElementById('match-grid').style.display='none';
+  document.getElementById('match-done').style.display='flex';
+  const m=Math.floor(mtSec/60);const s=String(mtSec%60).padStart(2,'0');
+  const stars=mtMistakes===0?'⭐⭐⭐':mtMistakes<=3?'⭐⭐':'⭐';
+  document.getElementById('mt-result').textContent=`${stars}  ${m}:${s} · ${mtMistakes} erreur${mtMistakes!==1?'s':''}`;
 }
 
 // ══════════ PRONUNCIATION CHECK ══════════
