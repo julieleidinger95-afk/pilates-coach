@@ -1245,9 +1245,12 @@ function renderMtTabs(){
 }
 function renderMtCols(){
   const cols=document.getElementById('match-cols');
-  const lHtml=mtLeft.map((c,i)=>`<div class="mi ${c.state}" onclick="pickLeft(${i})">${c.text}</div>`).join('');
-  const rHtml=mtRight.map((c,i)=>`<div class="mi ${c.state}" onclick="pickRight(${i})">${c.text}</div>`).join('');
-  cols.innerHTML=`<div class="match-col-hdr">English</div><div class="match-col-hdr">Français</div>${lHtml}${rHtml}`;
+  let html=`<div class="match-col-hdr">English</div><div class="match-col-hdr">Français</div>`;
+  for(let i=0;i<mtLeft.length;i++){
+    html+=`<div class="mi ${mtLeft[i].state}" onclick="pickLeft(${i})">${mtLeft[i].text}</div>`;
+    html+=`<div class="mi ${mtRight[i].state}" onclick="pickRight(${i})">${mtRight[i].text}</div>`;
+  }
+  cols.innerHTML=html;
 }
 function pickLeft(i){
   if(mtBusy||mtLeft[i].state==='ok')return;
