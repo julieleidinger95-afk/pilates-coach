@@ -201,8 +201,13 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </div>
     <div class="mc" onclick="go('simulation-screen')">
       <div class="ico">🎭</div><h2>Class Simulation</h2>
-      <p>Tu enseignes, les élèves répondent à voix haute. Feedback IA en temps réel.</p>
-      <div class="tags"><span class="tag">🔊 Voix élèves</span><span class="tag">AI feedback</span></div>
+      <p>Tu enseignes, les élèves répondent à voix haute. 7 scénarios disponibles.</p>
+      <div class="tags"><span class="tag">🔊 Voix élèves</span><span class="tag">AI feedback</span><span class="tag">7 scénarios</span></div>
+    </div>
+    <div class="mc" onclick="go('cue-screen')">
+      <div class="ico">🎯</div><h2>Cue Builder</h2>
+      <p>Claude te donne une situation de classe — tu formules le cue ou la correction en anglais.</p>
+      <div class="tags"><span class="tag">Situations réelles</span><span class="tag">Feedback IA</span></div>
     </div>
     <div class="mc" onclick="go('practice-screen')">
       <div class="ico">🎤</div><h2>Solo Practice</h2>
@@ -252,6 +257,11 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     <button class="back" onclick="go('home-screen')">←</button><h2>Quick Quiz</h2>
     <div class="hdr-r"><span class="cknown" id="qs-lbl" style="font-size:12px">0 / 0</span></div>
   </div>
+  <div class="ctabs" id="qtabs">
+    <button class="tpill active" onclick="setQMode('en_fr')">EN → FR</button>
+    <button class="tpill" onclick="setQMode('fr_en')">FR → EN</button>
+    <button class="tpill" onclick="setQMode('def')">📖 Définition</button>
+  </div>
   <div class="qarea">
     <div class="qqbox">
       <div class="qlbl" id="q-cat">ANATOMY</div>
@@ -272,6 +282,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     <div class="sc" onclick="startSim('beginner')"><div class="sico">🔰</div><div class="si"><h3>Beginner Mat Class</h3><p>Groupe de 4 débutants. Fondamentaux, corrections, modifications.</p></div><div class="sarr">›</div></div>
     <div class="sc" onclick="startSim('intermediate')"><div class="sico">⭐</div><div class="si"><h3>Intermediate Class</h3><p>Étudiants exigeants. Précision technique et flow.</p></div><div class="sarr">›</div></div>
     <div class="sc" onclick="startSim('certification')"><div class="sico">🎓</div><div class="si"><h3>Certification Exam</h3><p>Un examinateur observe et pose des questions précises.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('private')"><div class="sico">🧍</div><div class="si"><h3>Private Lesson</h3><p>Un(e) élève individuel(le) avec des besoins spécifiques.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('backpain')"><div class="sico">🩺</div><div class="si"><h3>Back Pain Student</h3><p>Élève avec douleurs lombaires — modifications et sécurité.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('online')"><div class="sico">💻</div><div class="si"><h3>Virtual Class</h3><p>Cours en ligne — sans corrections manuelles, connexion instable.</p></div><div class="sarr">›</div></div>
   </div>
 </div>
 
@@ -328,6 +341,24 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="dfoot">
     <button class="btn btn-l" onclick="practiceAgain()">Again</button>
     <button class="btn btn-d" onclick="go('practice-screen')">New topic</button>
+  </div>
+</div>
+
+<!-- ═══ CUE BUILDER ═══ -->
+<div id="cue-screen" class="screen">
+  <div class="hdr"><button class="back" onclick="go('home-screen')">←</button><h2>Cue Builder</h2></div>
+  <div class="qarea" style="gap:14px">
+    <div class="qqbox" id="cue-situation">
+      <div class="qlbl">SITUATION</div>
+      <div class="qterm" id="cue-prompt" style="font-size:14px;font-weight:500;line-height:1.5">Loading...</div>
+    </div>
+    <div id="cue-feedback" style="display:none;background:#EFF6EF;border:1.5px solid #C0DAC0;border-radius:var(--r);padding:16px;font-size:13px;line-height:1.7;color:#2E5E2E"></div>
+    <button class="btn btn-l" id="cue-next" onclick="nextCue()" style="display:none">Next situation →</button>
+  </div>
+  <div class="cinput">
+    <div class="iwrap"><textarea id="cueinput" placeholder="Type your cue or correction in English..." rows="1" oninput="autoRes(this)" onkeydown="handleCueKey(event)"></textarea></div>
+    <button class="icbtn vbtn" id="cuevbtn" onclick="toggleCueVoice()">🎙</button>
+    <button class="icbtn sbtn" onclick="sendCue()">↑</button>
   </div>
 </div>
 
@@ -421,6 +452,26 @@ exercises:[
 {en:"Boomerang",fr:"Le Boomerang",def:"Complex combination of Teaser, Roll Over, and balance."},
 {en:"Seal",fr:"Le Phoque",def:"Rolling Like a Ball with hands clasped inside the ankles — spinal mobility."},
 {en:"Push Up",fr:"La Pompe",def:"Classical ending: standing roll-down into push-up and back up."},
+{en:"Criss Cross",fr:"Criss Cross",def:"Rotation alternée en curl-up — coude vers genou opposé, jambe opposée en extension."},
+{en:"Scissors",fr:"Les Ciseaux",def:"Supine: alternating legs pulling toward the chest while the other extends long."},
+{en:"Double Straight Leg Stretch",fr:"Extension Jambes Tendues",def:"Lower and lift both straight legs together, maintaining spinal imprint."},
+{en:"Jackknife",fr:"Le Couteau de Poche",def:"Legs overhead then pressing straight up to the ceiling — advanced spinal articulation."},
+{en:"Hip Circles",fr:"Cercles des Hanches",def:"In back-support position, both legs circle together while the trunk stays stable."},
+{en:"Shoulder Bridge",fr:"Le Pont d'Épaules",def:"Spinal articulation into a bridge — one leg may extend for added challenge."},
+{en:"Spine Twist",fr:"La Torsion de la Colonne",def:"Seated tall rotation in both directions, maintaining length through the crown."},
+{en:"Control Balance",fr:"L'Équilibre Contrôlé",def:"Advanced: balance inverted on shoulders with scissoring legs overhead."},
+{en:"Rocking",fr:"Le Balancement",def:"Prone rocking on the front body — deep spinal extension and hip flexor stretch."},
+{en:"Leg Pull Back",fr:"Traction des Jambes Arrière",def:"Reverse plank: alternating leg lifts while the hips stay lifted and stable."},
+{en:"Kneeling Side Kicks",fr:"Coups de Pied Latéraux à Genoux",def:"Kneeling side position: free leg swings forward and back for hip mobility."},
+{en:"Mermaid",fr:"La Sirène",def:"Seated side stretch reaching one arm overhead — opens the intercostal space."},
+{en:"Chest Lift",fr:"Élévation de la Poitrine",def:"Foundational abdominal curl — base position for The Hundred and abdominal series."},
+{en:"Shoulder Bridge Prep",fr:"Prépa Pont d'Épaules",def:"Pelvic curl into a bridge — foundational version, feet on the mat throughout."},
+{en:"Plank",fr:"La Planche",def:"Full body stability hold — straight line from head to heels, powerhouse engaged."},
+{en:"Breast Stroke Prep",fr:"Prépa Brasse",def:"Prone: hands beside chest, lift the upper body in gentle spinal extension."},
+{en:"Hip Flexor Stretch",fr:"Étirement Fléchisseurs de Hanche",def:"Kneeling lunge stretch — releases the psoas after supine abdominal work."},
+{en:"Pelvic Clock",fr:"L'Horloge Pelvienne",def:"Small tilts of the pelvis in all directions — mobility and body-awareness exercise."},
+{en:"Cat-Cow",fr:"Chat-Vache",def:"On all fours: alternate between spinal flexion and extension with the breath."},
+{en:"Footwork",fr:"Le Travail des Pieds",def:"Foundational standing or supine heel/toe series — warms up the feet and calves."},
 ],
 teaching:[
 {en:"Begin in a supine position",fr:"Commencez allongé(e) sur le dos",def:"Lying on the back, face up. Standard starting position for mat class."},
@@ -470,6 +521,22 @@ smalltalk:[
 {en:"Come back for more practice — you're doing great.",fr:"Revenez pratiquer — vous faites de vraies progrès.",def:"Motivational closing to encourage return."},
 {en:"Is there anything specific you'd like to work on today?",fr:"Y a-t-il quelque chose de spécifique sur lequel vous aimeriez travailler aujourd'hui ?",def:"Opening question to personalize the session."},
 ]
+,corrections:[
+{en:"I notice your lower back is arching — can you imprint slightly?",fr:"Je vois votre dos se cambrer — pouvez-vous imprimer légèrement ?",def:"Verbal correction for anterior pelvic tilt or lumbar hyperextension during supine work."},
+{en:"Release the tension in your neck — let your head be heavy.",fr:"Relâchez la tension dans la nuque — laissez votre tête peser lourd.",def:"Correction for neck gripping or chin jutting in abdominal curl-up work."},
+{en:"Your shoulders are creeping up — let them melt down away from your ears.",fr:"Vos épaules remontent — laissez-les fondre, loin des oreilles.",def:"Trapezius tension correction — extremely common in class."},
+{en:"Check your ribs — can you close them toward your pelvis?",fr:"Vérifiez vos côtes — pouvez-vous les fermer vers le bassin ?",def:"Correction for rib flaring and loss of abdominal connection."},
+{en:"I can see you're holding your breath — keep breathing!",fr:"Je vois que vous retenez votre souffle — continuez à respirer !",def:"Breath-holding correction — especially common in challenging exercises."},
+{en:"Keep your hips level — don't let one side lift.",fr:"Gardez les hanches à la même hauteur — ne laissez pas un côté se lever.",def:"Hip hike correction for side-lying or single-leg exercises."},
+{en:"Your knees are falling inward — gently press them apart.",fr:"Vos genoux tombent vers l'intérieur — écartez-les doucement.",def:"Knee tracking correction in supine or standing exercises."},
+{en:"Soften your grip — you're working too hard in the wrong place.",fr:"Relâchez votre prise — vous travaillez trop fort au mauvais endroit.",def:"Over-gripping correction for hands, feet, glutes, or jaw."},
+{en:"Try not to use momentum — slow it right down.",fr:"Essayez de ne pas utiliser l'élan — ralentissez vraiment.",def:"Momentum correction — particularly in Roll Up or Single Leg Circle."},
+{en:"Your chin is poking forward — find a small nod.",fr:"Votre menton se projette en avant — trouvez une légère flexion.",def:"Cervical alignment correction for forward head posture."},
+{en:"Your pelvis is tilting — can you find neutral for me?",fr:"Votre bassin bascule — pouvez-vous trouver la position neutre ?",def:"Pelvic tilt correction — applies to both anterior and posterior tilt."},
+{en:"Great effort! Just ease off the tension — less is more here.",fr:"Bel effort ! Relâchez simplement la tension — ici, moins c'est plus.",def:"Encouraging over-effort correction — useful when students strain or compensate."},
+{en:"Keep your lower abdominals engaged — don't let them dome.",fr:"Gardez les abdominaux inférieurs engagés — ne les laissez pas gonfler.",def:"Diastasis-awareness cue for deep core engagement during loading."},
+{en:"Root down through your sitting bones.",fr:"Ancrez-vous dans vos ischions.",def:"Grounding cue for seated exercises to prevent rocking or shifting."},
+]
 };
 
 // ══════════ SIMULATION PROMPTS ══════════
@@ -512,6 +579,40 @@ Start with: [EXAMINER]: "Please begin when ready. Teach a foundational mat seque
 [Student] makes subtle errors: looking at ceiling instead of chin-to-chest, arching low back, holding breath.
 
 After 10 teacher turns: formal [ASSESSMENT] — ✅ 2 strengths, ⚠️ 2 areas to develop, 📚 1 vocab recommendation.`}
+,private:{title:"Private Lesson",sub:"One student · Personalized",prompt:`You play ONE student in a private Pilates lesson with Julie as teacher.
+
+**STUDENT: Morgan** — a 35-year-old runner with tight hip flexors and a tendency toward anterior pelvic tilt. Motivated, asks intelligent questions.
+
+RULES:
+- Respond as Morgan only. Ask follow-up questions naturally.
+- If a cue is vague, ask for clarification: "What do you mean by that exactly?"
+- If a correction is spot-on, give positive feedback and say you can feel the difference.
+- After every 6 exchanges, add [💡 PRIVATE LESSON TIP] about adapting language for one-on-one teaching.
+- 2-3 sentences per response.`},
+backpain:{title:"Back Pain Student",sub:"Modifications · Safety",prompt:`You play TWO students with specific needs in a Pilates class taught by Julie.
+
+**STUDENTS:**
+**Diane** (55, chronic low back pain, nervous about movement, needs constant reassurance and modifications)
+**Kevin** (28, no injuries but Diane's neighbor — supportive, occasionally asks "can I do the harder version?")
+
+RULES:
+- Diane needs modification options for every exercise. If Julie doesn't offer one, Diane says "I'm not sure I can do that with my back..."
+- Kevin provides a positive counterpoint and occasionally helps Diane feel less alone.
+- After every 5 exchanges, add [💡 MODIFICATION TIP] with the correct English phrasing for offering safe modifications.
+- Safety first: if Julie cues something risky for a back pain student, Diane expresses discomfort.`},
+online:{title:"Virtual Class",sub:"Online · Camera challenges",prompt:`You play 3 students attending Julie's online Pilates class via video call.
+
+**STUDENTS:**
+**Priya** (good connection, engaged, camera on)
+**Ben** (camera off, responds in chat only — "typing: ...sure!" style)
+**Camille** (technical issues — occasionally says "sorry, you cut out!" or "can you repeat that?")
+
+RULES:
+- Simulate the slightly chaotic energy of an online class.
+- Julie must project her voice through cues, can't physically correct anyone.
+- Ben only responds via text-style messages in quotes.
+- After every 5 exchanges, add [💡 ONLINE TEACHING TIP] about vocal cuing and presence without hands-on correction.
+- Camille asks for repetition at least once every 4 exchanges.`}
 };
 
 // ══════════ PRACTICE TOPICS ══════════
@@ -527,12 +628,14 @@ const PT=[
 ];
 
 // ══════════ STATE ══════════
-let fcCat='anatomy',fcCards=[],fcIdx=0,fcKnown=new Set();
+let fcCat='anatomy',fcDeck=[],fcKnown=new Set();
 let qCards=[],qIdx=0,qScore=0,qTotal=0,qDone=false;
 let chatH=[],simKey=null,simLoading=false;
 let ttsOn=localStorage.getItem('pc_tts')==='true',ttsVoices=[];
 let curTopic=null,recText='',recInt='',recOn=false,recR=null,recTI=null,recSec=0;
 let cvRec=null,cvOn=false;
+let qMode='en_fr';
+let cueRec=null,cueVoiceOn=false,cueLoading=false;
 
 // ══════════ NAVIGATION ══════════
 function go(id){
@@ -541,6 +644,7 @@ function go(id){
   if(id==='flashcard-screen')initFC();
   if(id==='quiz-screen')initQ();
   if(id==='practice-screen')buildTopics();
+  if(id==='cue-screen')initCue();
 }
 
 // ══════════ API KEY ══════════
@@ -558,7 +662,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ══════════ FLASHCARDS ══════════
-const CATS=[{id:'anatomy',l:'🦴 Anatomy'},{id:'principles',l:'✨ Principles'},{id:'cues',l:'💬 Cues'},{id:'exercises',l:'🏃 Exercises'},{id:'teaching',l:'🎓 Teaching'},{id:'smalltalk',l:'🗣 Small Talk'}];
+const CATS=[{id:'anatomy',l:'🦴 Anatomy'},{id:'principles',l:'✨ Principles'},{id:'cues',l:'💬 Cues'},{id:'exercises',l:'🏃 Exercises'},{id:'teaching',l:'🎓 Teaching'},{id:'smalltalk',l:'🗣 Small Talk'},{id:'corrections',l:'✏️ Corrections'}];
 
 function initFC(){renderCTabs();loadCat(fcCat);}
 function renderCTabs(){
@@ -567,21 +671,32 @@ function renderCTabs(){
   ).join('');
 }
 function loadCat(cat){
-  fcCat=cat;fcCards=shuf([...V[cat]]);fcIdx=0;fcKnown=new Set();
+  fcCat=cat;fcDeck=shuf([...V[cat]]);fcKnown=new Set();
   document.getElementById('fcard').classList.remove('flipped');
   renderCTabs();showCard();
 }
 function showCard(){
-  if(!fcCards.length)return;
-  const c=fcCards[fcIdx],n=fcCards.length;
+  const total=(V[fcCat]||[]).length;
+  document.getElementById('fc-prog').style.width=`${(fcKnown.size/total)*100}%`;
+  document.getElementById('fc-kn').textContent=`✓ ${fcKnown.size} known`;
+  if(!fcDeck.length){
+    document.getElementById('fc-cnt').textContent='Terminé !';
+    document.getElementById('fc-term').textContent='🎉';
+    document.getElementById('fc-cat').textContent=fcCat.toUpperCase();
+    document.getElementById('fc-cat2').textContent=fcCat.toUpperCase();
+    document.getElementById('fc-fr').textContent='Catégorie maîtrisée !';
+    document.getElementById('fc-def').textContent=`${fcKnown.size} / ${total} termes appris. Choisis une autre catégorie ou recommence !`;
+    document.getElementById('fc-pron').textContent='';
+    document.getElementById('fc-watch').style.display='none';
+    return;
+  }
+  const c=fcDeck[0];
   document.getElementById('fc-cat').textContent=fcCat.toUpperCase();
   document.getElementById('fc-cat2').textContent=fcCat.toUpperCase();
   document.getElementById('fc-term').textContent=c.en;
   document.getElementById('fc-fr').textContent=c.fr;
   document.getElementById('fc-def').textContent=c.def;
-  document.getElementById('fc-cnt').textContent=`${fcIdx+1} / ${n}`;
-  document.getElementById('fc-kn').textContent=`✓ ${fcKnown.size} known`;
-  document.getElementById('fc-prog').style.width=`${((fcIdx+1)/n)*100}%`;
+  document.getElementById('fc-cnt').textContent=`${fcKnown.size+1} / ${total}`;
   document.getElementById('fc-pron').textContent=c.pron?`/ ${c.pron} /`:'';
   const w=document.getElementById('fc-watch');
   if(fcCat==='exercises'){
@@ -591,10 +706,23 @@ function showCard(){
   document.getElementById('fcard').classList.remove('flipped');
 }
 function flipCard(){document.getElementById('fcard').classList.toggle('flipped');}
-function nextCard(k){if(k)fcKnown.add(fcCards[fcIdx].en);fcIdx=(fcIdx+1)%fcCards.length;showCard();}
-function pronounceCard(e){e.stopPropagation();const c=fcCards[fcIdx];pronounce(c?.tts||c?.en||'');}
+function nextCard(k){
+  if(!fcDeck.length)return;
+  const c=fcDeck.shift();
+  if(k){fcKnown.add(c.en);}
+  else{const pos=Math.min(3,fcDeck.length);fcDeck.splice(pos,0,c);}
+  showCard();
+}
+function pronounceCard(e){e.stopPropagation();const c=fcDeck[0];if(c)pronounce(c?.tts||c?.en||'');}
 
 // ══════════ QUIZ ══════════
+function setQMode(mode){
+  qMode=mode;
+  document.querySelectorAll('#qtabs .tpill').forEach(b=>b.classList.remove('active'));
+  const idx={en_fr:0,fr_en:1,def:2}[mode]??0;
+  document.querySelectorAll('#qtabs .tpill')[idx]?.classList.add('active');
+  initQ();
+}
 function initQ(){
   qCards=shuf(Object.values(V).flat());qIdx=0;qScore=0;qTotal=0;showQ();
 }
@@ -603,17 +731,32 @@ function showQ(){
   document.getElementById('q-next').style.display='none';
   if(qIdx>=qCards.length)qIdx=0;
   const c=qCards[qIdx];
+  const all=Object.values(V).flat();
   let cat='';
   for(const[k,arr]of Object.entries(V)){if(arr.find(x=>x.en===c.en)){cat=k.toUpperCase();break;}}
-  document.getElementById('q-cat').textContent=cat;
-  document.getElementById('q-term').textContent=c.en;
   document.getElementById('qs-lbl').textContent=`${qScore} / ${qTotal}`;
-  const all=Object.values(V).flat();
-  const wrong=shuf(all.filter(x=>x.en!==c.en)).slice(0,3);
-  const choices=shuf([c,...wrong]);
-  document.getElementById('q-choices').innerHTML=choices.map(x=>
-    `<button class="qc" data-en="${x.en.replace(/"/g,'&quot;')}" onclick="answerQ(this,'${esc(x.en)}','${esc(c.en)}')">${x.fr}</button>`
-  ).join('');
+  if(qMode==='en_fr'){
+    document.getElementById('q-cat').textContent=cat+' · EN→FR';
+    document.getElementById('q-term').textContent=c.en;
+    const wrong=shuf(all.filter(x=>x.en!==c.en)).slice(0,3);
+    document.getElementById('q-choices').innerHTML=shuf([c,...wrong]).map(x=>
+      `<button class="qc" data-en="${x.en.replace(/"/g,'&quot;')}" onclick="answerQ(this,'${esc(x.en)}','${esc(c.en)}')">${x.fr}</button>`
+    ).join('');
+  }else if(qMode==='fr_en'){
+    document.getElementById('q-cat').textContent=cat+' · FR→EN';
+    document.getElementById('q-term').textContent=c.fr;
+    const wrong=shuf(all.filter(x=>x.en!==c.en)).slice(0,3);
+    document.getElementById('q-choices').innerHTML=shuf([c,...wrong]).map(x=>
+      `<button class="qc" data-en="${x.en.replace(/"/g,'&quot;')}" onclick="answerQ(this,'${esc(x.en)}','${esc(c.en)}')">${x.en}</button>`
+    ).join('');
+  }else{
+    document.getElementById('q-cat').textContent='📖 DÉFINITION';
+    document.getElementById('q-term').textContent=c.def;
+    const wrong=shuf(all.filter(x=>x.en!==c.en&&x.def!==c.def)).slice(0,3);
+    document.getElementById('q-choices').innerHTML=shuf([c,...wrong]).map(x=>
+      `<button class="qc" data-en="${x.en.replace(/"/g,'&quot;')}" onclick="answerQ(this,'${esc(x.en)}','${esc(c.en)}')">${x.en}</button>`
+    ).join('');
+  }
 }
 function pronounceQuiz(){const c=qCards[qIdx];pronounce(c?.tts||c?.en||'');}
 function answerQ(btn,chosen,correct){
@@ -922,6 +1065,86 @@ function toast(msg,ms=2800){
   const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
   clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),ms);
 }
+
+// ══════════ CUE BUILDER ══════════
+const CUE_SYSTEM=`You are a Pilates teacher trainer creating realistic classroom situations for a student teacher named Julie to practice her verbal cueing in English. She has never taught before and is preparing for her Pilates certification.`;
+
+const CUE_SITUATIONS=[
+  "Your student's lower back is arching off the mat during Single Leg Stretch. What do you say?",
+  "A student's chin is jutting forward during The Hundred. Give a verbal correction.",
+  "You can see a student holding their breath during Roll Up. How do you address this?",
+  "A student's shoulders are hunching toward their ears in Swan. Correct this verbally.",
+  "You want to cue the transition from The Hundred into Roll Up. What do you say?",
+  "A beginner student looks confused about 'neutral spine'. Explain it in simple terms.",
+  "A student is using momentum in Single Leg Circle — the pelvis is rocking. How do you stop this?",
+  "You need to cue lateral breathing at the start of class. What do you say exactly?",
+  "A student's ribs are flaring during Chest Lift. Give a correction cue.",
+  "Cue your students into a Shoulder Bridge step by step.",
+  "A student says their lower back hurts during Double Leg Stretch. Offer a modification.",
+  "Transition your class from floor work to standing. What do you say?",
+  "Give an opening greeting for your class and set intentions for the session.",
+  "A student in your online class says they can't quite see your position. How do you help?",
+  "Cue the powerhouse engagement at the beginning of the class.",
+  "A student is gripping their glutes too hard. Correct this without making them feel bad.",
+  "Close your class and send students off with encouragement.",
+  "Explain the difference between imprint and neutral spine to a new student.",
+];
+
+let cueIdx=0;
+function initCue(){
+  cueIdx=Math.floor(Math.random()*CUE_SITUATIONS.length);
+  document.getElementById('cue-prompt').textContent=CUE_SITUATIONS[cueIdx];
+  document.getElementById('cue-feedback').style.display='none';
+  document.getElementById('cue-next').style.display='none';
+  document.getElementById('cueinput').value='';
+  autoRes(document.getElementById('cueinput'));
+}
+async function sendCue(){
+  const el=document.getElementById('cueinput');
+  const text=el.value.trim();
+  if(!text||cueLoading)return;
+  el.value='';autoRes(el);
+  const situation=CUE_SITUATIONS[cueIdx];
+  cueLoading=true;
+  document.getElementById('cue-feedback').style.display='block';
+  document.getElementById('cue-feedback').textContent='Analyzing...';
+  document.getElementById('cue-next').style.display='none';
+  try{
+    const fb=await api([{role:'user',content:`SITUATION: ${situation}\n\nJULIE'S RESPONSE: "${text}"\n\nEvaluate her cue in 3 short parts:\n✅ **What worked** — quote the strongest part of her cue\n⚠️ **One improvement** — be specific (anatomy, clarity, breath, imagery)\n💡 **Suggested version** — give a polished alternative she can memorize\n\nBe encouraging and concise. Max 5 sentences total.`}],CUE_SYSTEM,350);
+    document.getElementById('cue-feedback').innerHTML=md2h(fb);
+  }catch(e){
+    document.getElementById('cue-feedback').textContent=`⚠️ ${e.message}`;
+  }
+  cueLoading=false;
+  document.getElementById('cue-next').style.display='block';
+}
+function nextCue(){
+  cueIdx=(cueIdx+1)%CUE_SITUATIONS.length;
+  document.getElementById('cue-prompt').textContent=CUE_SITUATIONS[cueIdx];
+  document.getElementById('cue-feedback').style.display='none';
+  document.getElementById('cue-next').style.display='none';
+  document.getElementById('cueinput').value='';
+  autoRes(document.getElementById('cueinput'));
+}
+function handleCueKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendCue();}}
+function toggleCueVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Voice not available');return;}
+  if(cueVoiceOn){stopCueVoice();return;}
+  if(!cueRec){
+    cueRec=new SR();cueRec.lang='en-US';cueRec.continuous=false;cueRec.interimResults=false;
+    cueRec.onresult=e=>{
+      const t=e.results[0][0].transcript;
+      const el=document.getElementById('cueinput');
+      el.value=(el.value+' '+t).trim();autoRes(el);
+    };
+    cueRec.onend=()=>stopCueVoice();
+    cueRec.onerror=()=>stopCueVoice();
+  }
+  try{cueRec.start();cueVoiceOn=true;const b=document.getElementById('cuevbtn');b.classList.add('on');b.textContent='🔴';toast('Listening...');}
+  catch(e){stopCueVoice();}
+}
+function stopCueVoice(){cueVoiceOn=false;if(cueRec)try{cueRec.stop();}catch(e){}const b=document.getElementById('cuevbtn');if(b){b.classList.remove('on');b.textContent='🎙';}}
 </script>
 </body>
 </html>
