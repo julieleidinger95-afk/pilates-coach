@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pilates English Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#FAF8F5;--surface:#fff;--text:#1A1A1A;--t2:#6B6B6B;
+  --accent:#7C6B5D;--al:#F0EAE4;--border:#E8E3DE;
+  --green:#5A8A6A;--red:#C4614A;--r:16px;--rs:10px;
+  --shadow:0 2px 12px rgba(0,0,0,.08)
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;max-width:430px;margin:0 auto;overflow-x:hidden}
+.screen{display:none;min-height:100dvh;flex-direction:column}
+.screen.active{display:flex}
+
+/* SHARED */
+.hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;flex-shrink:0}
+.back{width:36px;height:36px;border-radius:50%;border:none;background:var(--al);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr h2{font-size:15px;font-weight:600}
+.hdr-r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.btn{display:block;width:100%;padding:15px 20px;border:none;border-radius:var(--r);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;transition:opacity .15s;text-align:center}
+.btn:active{opacity:.8}
+.btn-d{background:var(--text);color:#fff}
+.btn-l{background:var(--al);color:var(--accent)}
+.btn-o{background:transparent;border:1.5px solid var(--border);color:var(--text)}
+.form-g{margin-bottom:18px}
+.form-g label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.6px}
+.form-g input{width:100%;padding:13px 15px;border:1.5px solid var(--border);border-radius:var(--rs);font-family:inherit;font-size:14px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s}
+.form-g input:focus{border-color:var(--accent)}
+.hint{font-size:12px;color:var(--t2);margin-top:8px;line-height:1.6}
+.ibtn{padding:6px 11px;border-radius:14px;border:1.5px solid var(--border);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);flex-shrink:0;white-space:nowrap}
+.ibtn.on{background:var(--al);color:var(--accent);border-color:var(--accent)}
+
+/* SETUP */
+#setup-screen{padding:40px 22px;justify-content:center}
+.su-top{text-align:center;margin-bottom:44px}
+.su-top .logo{font-size:52px;margin-bottom:14px}
+.su-top h1{font-size:26px;font-weight:700;letter-spacing:-.5px}
+.su-top p{color:var(--t2);margin-top:7px;font-size:14px}
+
+/* HOME */
+.h-hero{background:var(--text);color:#fff;padding:40px 22px 30px;text-align:center;flex-shrink:0}
+.h-hero .logo{font-size:40px;margin-bottom:10px}
+.h-hero h1{font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:5px}
+.h-hero p{opacity:.6;font-size:13px}
+.h-body{padding:18px;flex:1;display:flex;flex-direction:column;gap:11px;overflow-y:auto}
+.mc{background:var(--surface);border-radius:var(--r);padding:18px;border:1.5px solid var(--border);cursor:pointer;transition:transform .12s;flex-shrink:0}
+.mc:active{transform:scale(.98)}
+.mc .ico{font-size:28px;margin-bottom:9px}
+.mc h2{font-size:17px;font-weight:600;margin-bottom:4px}
+.mc p{color:var(--t2);font-size:12px;line-height:1.5}
+.tags{display:flex;gap:6px;margin-top:11px;flex-wrap:wrap}
+.tag{background:var(--al);color:var(--accent);padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500}
+
+/* FLASHCARDS */
+.ctabs{display:flex;overflow-x:auto;padding:10px 14px;gap:7px;background:var(--surface);border-bottom:1px solid var(--border);scrollbar-width:none;flex-shrink:0}
+.ctabs::-webkit-scrollbar{display:none}
+.tpill{flex-shrink:0;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;background:transparent;font-family:inherit;color:var(--t2);transition:all .15s;white-space:nowrap}
+.tpill.active{background:var(--text);color:#fff;border-color:var(--text)}
+.card-area{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px;overflow:hidden}
+.cmeta{display:flex;justify-content:space-between;width:100%;margin-bottom:9px}
+.ccnt{font-size:12px;color:var(--t2)}
+.cknown{font-size:12px;color:var(--green);font-weight:500}
+.pbar{width:100%;height:3px;background:var(--border);border-radius:2px;margin-bottom:18px}
+.pfill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.fwrap{width:100%;perspective:1000px;flex:1;max-height:250px;margin-bottom:18px}
+.fcard{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s ease;cursor:pointer}
+.fcard.flipped{transform:rotateY(180deg)}
+.face{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:var(--shadow)}
+.cfront{background:var(--surface);border:1.5px solid var(--border)}
+.cback{background:var(--text);color:#fff;transform:rotateY(180deg)}
+.ccat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:9px}
+.cback .ccat{color:rgba(255,255,255,.45)}
+.cterm{font-size:20px;font-weight:700;line-height:1.3;letter-spacing:-.3px}
+.ctip{font-size:11px;color:var(--t2);margin-top:10px}
+.cback .ctip{color:rgba(255,255,255,.35)}
+.cfr{font-size:15px;font-weight:600;margin-bottom:7px}
+.cdef{font-size:11px;opacity:.75;line-height:1.55}
+.pbtn{position:absolute;bottom:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:5}
+.cback .pbtn{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.15)}
+.pbtn:active{opacity:.7}
+.wbtn{display:none;margin-top:10px;padding:6px 14px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);border-radius:20px;color:#fff;font-size:11px;font-weight:500;text-decoration:none}
+.cbtns{display:flex;gap:10px;width:100%;flex-shrink:0}
+.cbtn{flex:1;padding:13px;border-radius:var(--r);border:none;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s}
+.cbtn:active{opacity:.8}
+.bskip{background:var(--border);color:var(--t2)}
+.bknow{background:var(--green);color:#fff}
+
+/* QUIZ */
+.qarea{flex:1;padding:18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.qqbox{background:var(--surface);border-radius:var(--r);padding:22px 18px;border:1.5px solid var(--border);text-align:center;position:relative}
+.qlbl{font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.qterm{font-size:21px;font-weight:700;letter-spacing:-.5px;line-height:1.3}
+.qpbtn{margin-top:11px;padding:6px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--t2);font-family:inherit;font-size:12px;cursor:pointer}
+.qchoices{display:flex;flex-direction:column;gap:7px}
+.qc{padding:13px 14px;border-radius:var(--rs);border:1.5px solid var(--border);background:var(--surface);font-family:inherit;font-size:13px;cursor:pointer;text-align:left;transition:all .15s;line-height:1.4}
+.qc.ok{background:#EFF6EF;border-color:var(--green);color:#2A6A2A;font-weight:500}
+.qc.no{background:#FAF0EE;border-color:var(--red);color:var(--red)}
+
+/* SIMULATION PICKER */
+.slist{padding:16px;flex:1;display:flex;flex-direction:column;gap:9px;overflow-y:auto}
+.sintro{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:4px}
+.sc{background:var(--surface);border-radius:var(--r);padding:14px 16px;border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .12s;flex-shrink:0}
+.sc:active{transform:scale(.98)}
+.sico{font-size:26px;flex-shrink:0}
+.si h3{font-size:14px;font-weight:600;margin-bottom:2px}
+.si p{font-size:12px;color:var(--t2);line-height:1.4}
+.sarr{margin-left:auto;color:var(--t2);font-size:19px;flex-shrink:0}
+
+/* CHAT */
+#chat-screen{height:100dvh;max-height:100dvh;overflow:hidden}
+.chat-hdr{padding:10px 13px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ctitle{font-size:13px;font-weight:600}
+.csub{font-size:11px;color:var(--t2)}
+.cam-panel{position:relative;overflow:hidden;flex-shrink:0;height:0;transition:height .25s ease;background:#111}
+.cam-panel.open{height:175px}
+#cam-video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.cam-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;padding:3px 8px;border-radius:10px;display:flex;align-items:center;gap:4px}
+.cam-dot{width:6px;height:6px;border-radius:50%;background:#FF4444;animation:pulse 1.2s infinite}
+.cam-tip{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.8);color:#fff;font-size:12px;padding:9px 13px;line-height:1.5;transform:translateY(100%);transition:transform .3s ease}
+.cam-tip.show{transform:translateY(0)}
+.cam-x{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:24px;height:24px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px}
+.msg{max-width:87%;padding:10px 13px;border-radius:17px;font-size:13px;line-height:1.55}
+.msg.t{background:var(--text);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.s{background:var(--surface);color:var(--text);align-self:flex-start;border:1.5px solid var(--border);border-bottom-left-radius:4px}
+.msg.sys{background:var(--al);color:var(--accent);align-self:center;text-align:center;font-size:12px;max-width:92%;border-radius:var(--rs);line-height:1.5}
+.msg.fb{background:#EFF6EF;color:#2E5E2E;border:1.5px solid #C0DAC0;align-self:center;max-width:92%;border-radius:var(--rs);font-size:12px;line-height:1.6}
+.mwho{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.5;margin-bottom:4px}
+.typing{display:flex;align-items:center;gap:5px;padding:12px 15px;background:var(--surface);border:1.5px solid var(--border);border-radius:17px;border-bottom-left-radius:4px;align-self:flex-start}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--t2);animation:bounce 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.15)}}
+.cinput{padding:9px 12px 13px;background:var(--surface);border-top:1px solid var(--border);display:flex;gap:7px;align-items:flex-end;flex-shrink:0}
+.iwrap{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:21px;padding:9px 13px}
+.iwrap textarea{width:100%;background:transparent;border:none;outline:none;font-family:inherit;font-size:14px;resize:none;max-height:75px;line-height:1.4;color:var(--text)}
+.iwrap textarea::placeholder{color:var(--t2)}
+.icbtn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all .15s}
+.vbtn{background:var(--al)}
+.vbtn.on{background:#FFE0DA;animation:pulse 1s infinite}
+.sbtn{background:var(--text);color:#fff}
+.sbtn:disabled{opacity:.35}
+
+/* PRACTICE PICKER */
+#practice-screen{padding:0}
+.plist{padding:16px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:9px}
+.pintro{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:4px}
+
+/* RECORD */
+#record-screen{height:100dvh;max-height:100dvh;overflow:hidden}
+.rtopic{padding:10px 15px;background:var(--al);border-bottom:1px solid var(--border);flex-shrink:0}
+.rtopic p{font-size:12px;color:var(--accent);line-height:1.4}
+.tarea{flex:1;overflow-y:auto;padding:16px;font-size:14px;line-height:1.8;color:var(--text)}
+.tph{color:var(--t2);font-style:italic;font-size:13px}
+.tint{color:var(--t2);font-style:italic}
+.rbar{padding:14px 20px 26px;background:var(--surface);border-top:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:9px;flex-shrink:0}
+.rbtn{width:64px;height:64px;border-radius:50%;border:none;cursor:pointer;font-size:24px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.rbtn.idle{background:var(--text);color:#fff}
+.rbtn.rec{background:var(--red);color:#fff;animation:pulse 1.5s infinite}
+.rbtn.proc{background:var(--border);color:var(--t2);pointer-events:none}
+.rst{font-size:12px;color:var(--t2)}
+.rtimer{font-size:12px;color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* DEBRIEF */
+#debrief-screen{height:100dvh;max-height:100dvh;overflow:hidden}
+.dbody{flex:1;overflow-y:auto;padding:18px;line-height:1.75;font-size:13px}
+.dbody strong{color:var(--text);font-weight:600}
+.dbody br+br{margin-bottom:4px}
+.dfoot{padding:12px 15px 26px;display:flex;gap:9px;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0}
+.dfoot .btn{margin:0}
+
+/* TOAST */
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .25s;z-index:200;pointer-events:none;white-space:nowrap;max-width:88vw;text-align:center}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ═══ SETUP ═══ -->
+<div id="setup-screen" class="screen active">
+  <div class="su-top"><div class="logo">🧘</div><h1>Pilates Coach</h1><p>Your English teaching companion</p></div>
+  <div class="form-g">
+    <label>Claude API Key</label>
+    <input type="password" id="api-key-input" placeholder="sk-ant-api..." autocomplete="off">
+    <p class="hint">Stored on this device only. Get your key at <strong>console.anthropic.com</strong> → API Keys.<br><br>⚠️ Camera &amp; voice features require HTTPS — use a local server or deploy to GitHub Pages.</p>
+  </div>
+  <button class="btn btn-d" onclick="saveKey()">Let's go →</button>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<div id="home-screen" class="screen">
+  <div class="h-hero"><div class="logo">🧘</div><h1>Pilates Coach</h1><p>English vocabulary &amp; teaching practice</p></div>
+  <div class="h-body">
+    <div class="mc" onclick="go('flashcard-screen')">
+      <div class="ico">📚</div><h2>Flashcards</h2>
+      <p>110+ terms across 5 categories with pronunciation audio and exercise demos.</p>
+      <div class="tags"><span class="tag">🔊 Prononciation</span><span class="tag">▶ Videos</span><span class="tag">EN↔FR</span></div>
+    </div>
+    <div class="mc" onclick="go('quiz-screen')">
+      <div class="ico">⚡</div><h2>Quick Quiz</h2>
+      <p>Multiple choice with pronunciation — entends le terme avant de deviner.</p>
+      <div class="tags"><span class="tag">🔊 Audio</span><span class="tag">Score</span></div>
+    </div>
+    <div class="mc" onclick="go('simulation-screen')">
+      <div class="ico">🎭</div><h2>Class Simulation</h2>
+      <p>Tu enseignes, les élèves répondent à voix haute. Webcam coaching inclus.</p>
+      <div class="tags"><span class="tag">🔊 Voix élèves</span><span class="tag">📷 Webcam</span><span class="tag">AI feedback</span></div>
+    </div>
+    <div class="mc" onclick="go('practice-screen')">
+      <div class="ico">🎤</div><h2>Solo Practice</h2>
+      <p>Enregistre-toi en train d'enseigner — analyse complète de ton vocab et tes cues.</p>
+      <div class="tags"><span class="tag">Enregistrement</span><span class="tag">Debrief IA</span></div>
+    </div>
+    <button class="btn btn-o" onclick="showSettings()" style="margin-top:4px">⚙ API Key</button>
+  </div>
+</div>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<div id="flashcard-screen" class="screen">
+  <div class="hdr"><button class="back" onclick="go('home-screen')">←</button><h2>Flashcards</h2></div>
+  <div class="ctabs" id="ctabs"></div>
+  <div class="card-area">
+    <div class="cmeta"><span class="ccnt" id="fc-cnt">1 / 22</span><span class="cknown" id="fc-kn">✓ 0 known</span></div>
+    <div class="pbar"><div class="pfill" id="fc-prog"></div></div>
+    <div class="fwrap">
+      <div class="fcard" id="fcard" onclick="flipCard()">
+        <div class="face cfront">
+          <div class="ccat" id="fc-cat">ANATOMY</div>
+          <div class="cterm" id="fc-term">Neutral Spine</div>
+          <div class="ctip">Tap to reveal →</div>
+          <button class="pbtn" onclick="pronounceCard(event)" title="Prononciation">🔊</button>
+        </div>
+        <div class="face cback">
+          <div class="ccat" id="fc-cat2">ANATOMY</div>
+          <div class="cfr" id="fc-fr">Colonne neutre</div>
+          <div class="cdef" id="fc-def">Natural spine position.</div>
+          <div class="ctip">Tap to flip back</div>
+          <a id="fc-watch" class="wbtn" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ Watch Demo</a>
+          <button class="pbtn" onclick="pronounceCard(event)" title="Prononciation">🔊</button>
+        </div>
+      </div>
+    </div>
+    <div class="cbtns">
+      <button class="cbtn bskip" onclick="nextCard(false)">Skip →</button>
+      <button class="cbtn bknow" onclick="nextCard(true)">✓ Got it</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz-screen" class="screen">
+  <div class="hdr">
+    <button class="back" onclick="go('home-screen')">←</button><h2>Quick Quiz</h2>
+    <div class="hdr-r"><span class="cknown" id="qs-lbl" style="font-size:12px">0 / 0</span></div>
+  </div>
+  <div class="qarea">
+    <div class="qqbox">
+      <div class="qlbl" id="q-cat">ANATOMY</div>
+      <div class="qterm" id="q-term">Loading...</div>
+      <button class="qpbtn" onclick="pronounceQuiz()">🔊 Hear it</button>
+    </div>
+    <div class="qchoices" id="q-choices"></div>
+    <button class="btn btn-l" id="q-next" onclick="nextQuiz()" style="display:none">Next →</button>
+  </div>
+</div>
+
+<!-- ═══ SIMULATION PICKER ═══ -->
+<div id="simulation-screen" class="screen">
+  <div class="hdr"><button class="back" onclick="go('home-screen')">←</button><h2>Class Simulation</h2></div>
+  <div class="slist">
+    <p class="sintro">Tu es le prof. Instruis en anglais — les élèves répondent, parlent, et te donnent du feedback vocab.</p>
+    <div class="sc" onclick="startSim('first')"><div class="sico">🌱</div><div class="si"><h3>First Class Ever</h3><p>Ambiance ultra-bienveillante pour débuter sans pression.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('beginner')"><div class="sico">🔰</div><div class="si"><h3>Beginner Mat Class</h3><p>Groupe de 4 débutants. Fondamentaux, corrections, modifications.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('intermediate')"><div class="sico">⭐</div><div class="si"><h3>Intermediate Class</h3><p>Étudiants exigeants. Précision technique et flow.</p></div><div class="sarr">›</div></div>
+    <div class="sc" onclick="startSim('certification')"><div class="sico">🎓</div><div class="si"><h3>Certification Exam</h3><p>Un examinateur observe et pose des questions précises.</p></div><div class="sarr">›</div></div>
+  </div>
+</div>
+
+<!-- ═══ CHAT ═══ -->
+<div id="chat-screen" class="screen">
+  <div class="chat-hdr">
+    <button class="back" onclick="endSim()">←</button>
+    <div><div class="ctitle" id="c-title">Class</div><div class="csub" id="c-sub">Scenario</div></div>
+    <div class="hdr-r">
+      <button class="ibtn" id="tts-btn" onclick="toggleTts()">🔇 Off</button>
+      <button class="ibtn" id="cam-btn" onclick="toggleCam()">📷</button>
+      <button class="ibtn" onclick="getFeedback()">📊</button>
+    </div>
+  </div>
+  <div class="cam-panel" id="cam-panel">
+    <video id="cam-video" autoplay muted playsinline></video>
+    <div class="cam-badge"><div class="cam-dot"></div><span>Coach watching</span></div>
+    <div class="cam-tip" id="cam-tip"></div>
+    <button class="cam-x" onclick="stopCamera()">✕</button>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="cinput">
+    <div class="iwrap"><textarea id="cinput" placeholder="Give an instruction in English..." rows="1" onkeydown="handleKey(event)" oninput="autoRes(this)"></textarea></div>
+    <button class="icbtn vbtn" id="vbtn" onclick="toggleCV()">🎙</button>
+    <button class="icbtn sbtn" onclick="send()">↑</button>
+  </div>
+</div>
+
+<!-- ═══ PRACTICE PICKER ═══ -->
+<div id="practice-screen" class="screen">
+  <div class="hdr"><button class="back" onclick="go('home-screen')">←</button><h2>Solo Practice</h2></div>
+  <div class="plist">
+    <p class="pintro">Enregistre-toi en train d'enseigner. Claude analyse ton vocabulaire Pilates, la clarté de tes cues, et ton anglais.</p>
+    <div id="ptopics"></div>
+  </div>
+</div>
+
+<!-- ═══ RECORD ═══ -->
+<div id="record-screen" class="screen">
+  <div class="hdr">
+    <button class="back" onclick="go('practice-screen')">←</button>
+    <h2 id="r-title">Practice</h2>
+    <div class="hdr-r"><span class="rtimer" id="r-timer">00:00</span></div>
+  </div>
+  <div class="rtopic"><p id="r-desc">Description</p></div>
+  <div class="tarea" id="tarea"><span class="tph" id="tph">Tap the mic and start speaking your instructions in English...</span></div>
+  <div class="rbar">
+    <button class="rbtn idle" id="rbtn" onclick="toggleRec()">🎙</button>
+    <div class="rst" id="rst">Tap to start</div>
+  </div>
+</div>
+
+<!-- ═══ DEBRIEF ═══ -->
+<div id="debrief-screen" class="screen">
+  <div class="hdr">
+    <button class="back" onclick="go('practice-screen')">←</button>
+    <h2>Debrief</h2>
+    <div class="hdr-r"><span class="csub" id="db-topic"></span></div>
+  </div>
+  <div class="dbody" id="dbody">Analyzing...</div>
+  <div class="dfoot">
+    <button class="btn btn-l" onclick="practiceAgain()">Again</button>
+    <button class="btn btn-d" onclick="go('practice-screen')">New topic</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════ VOCABULARY ══════════
+const V={
+anatomy:[
+{en:"Neutral Spine",fr:"Colonne neutre",def:"Natural position maintaining the spine's three curves without flattening or exaggerating them."},
+{en:"Imprint",fr:"Imprimer la colonne",def:"Gently pressing the lumbar spine into the mat, flattening the low back."},
+{en:"Powerhouse",fr:"Centre de force",def:"The deep core: transversus abdominis, pelvic floor, lower back, and glutes."},
+{en:"Pelvic Floor",fr:"Plancher pelvien / Périnée",def:"Hammock of muscles at the base of the pelvis supporting the organs."},
+{en:"Transversus Abdominis",fr:"Transverse de l'abdomen",def:"Deepest abdominal muscle — wraps around the trunk like a corset."},
+{en:"Rectus Abdominis",fr:"Droit de l'abdomen",def:"The superficial 'six-pack' muscle running vertically along the front of the belly."},
+{en:"Obliques",fr:"Obliques (interne & externe)",def:"Side abdominal muscles responsible for rotation and lateral flexion."},
+{en:"Shoulder Girdle",fr:"Ceinture scapulaire",def:"Structure formed by the shoulder blades and collarbones."},
+{en:"Scapulae",fr:"Omoplates",def:"The shoulder blades — must be stabilized during arm movements."},
+{en:"Hip Flexors",fr:"Fléchisseurs de hanche",def:"Muscles that bring the thigh toward the torso (psoas, iliacus, rectus femoris)."},
+{en:"Hamstrings",fr:"Ischio-jambiers",def:"Three muscles along the back of the thigh."},
+{en:"Glutes",fr:"Fessiers",def:"Gluteus maximus, medius, and minimus — key for hip stability and extension."},
+{en:"Erector Spinae",fr:"Érecteurs du rachis",def:"Column of muscles along the spine responsible for extension and posture."},
+{en:"Adductors",fr:"Adducteurs",def:"Inner thigh muscles that bring the legs together."},
+{en:"Cervical Spine",fr:"Colonne cervicale",def:"The 7 vertebrae of the neck."},
+{en:"Thoracic Spine",fr:"Colonne thoracique",def:"The 12 vertebrae of the mid-back, attached to the ribs."},
+{en:"Lumbar Spine",fr:"Colonne lombaire",def:"The 5 vertebrae of the lower back."},
+{en:"Sacrum",fr:"Sacrum",def:"Triangular bone at the base of the spine connecting to the pelvis."},
+{en:"Ribcage",fr:"Cage thoracique",def:"The bony framework protecting the heart and lungs."},
+{en:"Anterior Pelvic Tilt",fr:"Bascule antérieure du bassin",def:"Forward tipping of the pelvis, increasing the lumbar curve (arched low back)."},
+{en:"Posterior Pelvic Tilt",fr:"Bascule postérieure du bassin",def:"Backward tipping of the pelvis, flattening the lumbar curve (tucked pelvis)."},
+{en:"Axial Elongation",fr:"Élongation axiale",def:"Lengthening of the spine from the tailbone through the crown of the head."},
+{en:"Lateral Flexion",fr:"Flexion latérale",def:"Side bending of the spine."},
+{en:"Hip Socket",fr:"Acetabulum",def:"Cup-shaped socket in the pelvis where the femur head articulates."},
+],
+principles:[
+{en:"Centering",fr:"Centrage",def:"Drawing power from the body's center — the powerhouse. All movement originates here."},
+{en:"Concentration",fr:"Concentration",def:"Full mental focus on each movement and its intention."},
+{en:"Control",fr:"Contrôle",def:"Every movement is performed with muscular control, never momentum."},
+{en:"Precision",fr:"Précision",def:"Correct placement and deliberate effort for every movement."},
+{en:"Breath",fr:"Respiration",def:"Coordinating breath with movement — exhale on exertion."},
+{en:"Flow",fr:"Fluidité",def:"Graceful, continuous movement creating efficiency and rhythm."},
+{en:"Lateral Breathing",fr:"Respiration latérale",def:"Expanding the ribcage sideways and into the back on the inhale."},
+{en:"Thoracic Breathing",fr:"Respiration thoracique",def:"Breathing into the chest rather than the belly, keeping the core engaged."},
+{en:"Scoop",fr:"Creuser",def:"Drawing the abdominals in and up away from the waistband."},
+],
+cues:[
+{en:"Draw your navel to your spine",fr:"Rentrez le nombril vers la colonne",def:"Core engagement cue — activates the transversus abdominis."},
+{en:"Lengthen through the crown of your head",fr:"Grandissez par le sommet du crâne",def:"Axial elongation cue — creates space between vertebrae."},
+{en:"Soften your shoulders",fr:"Relâchez vos épaules",def:"Release tension in the trapezius — let the shoulders drop from the ears."},
+{en:"Engage your powerhouse",fr:"Engagez votre centre",def:"Activate the entire deep core before and during movement."},
+{en:"Find your neutral spine",fr:"Trouvez votre colonne neutre",def:"Position the spine maintaining its natural curves."},
+{en:"Breathe into your back",fr:"Respirez dans votre dos",def:"Direct breath into the posterior ribcage — lateral breathing cue."},
+{en:"Articulate through your spine",fr:"Articulez à travers la colonne",def:"Move vertebra by vertebra in sequence, like a string of pearls."},
+{en:"Melt your ribs down",fr:"Abaissez / Fermez les côtes",def:"Close the lower ribs toward the pelvis to prevent back arching."},
+{en:"Chin to chest",fr:"Menton vers la poitrine",def:"Cervical flexion — elongates the back of the neck."},
+{en:"Keep your hips square",fr:"Gardez les hanches carrées",def:"Maintain equal hip height without rotation during leg work."},
+{en:"Wrap your inner thighs",fr:"Enroulez les cuisses internes",def:"Slight internal rotation — engages the inner thighs."},
+{en:"Scoop your belly",fr:"Creusez le ventre",def:"Draw the abdominals in and up — Pilates core engagement."},
+{en:"Stabilize your pelvis",fr:"Stabilisez le bassin",def:"Keep the pelvis still and neutral throughout the movement."},
+{en:"Press your heels away",fr:"Poussez les talons vers l'avant",def:"Dorsiflex the feet and reach through the heels for leg length."},
+{en:"Open your chest",fr:"Ouvrez la poitrine",def:"Widen the collarbones and expand the front of the chest."},
+{en:"Knit your ribs together",fr:"Rapprochez les côtes",def:"Draw the lower ribs toward each other to engage the abdominals."},
+{en:"Float your arms",fr:"Flottez les bras",def:"Lift the arms without gripping or tensing the shoulders and neck."},
+{en:"Imagine a string at the crown of your head",fr:"Imaginez un fil au sommet du crâne",def:"Visualization for spinal elongation — classic Pilates image."},
+{en:"Relax your jaw",fr:"Détendez la mâchoire",def:"Release facial tension — cue for whole-body relaxation."},
+{en:"Ground your sitting bones",fr:"Ancrez vos ischions",def:"Press evenly through both sit bones in seated exercises."},
+{en:"Keep your shoulders away from your ears",fr:"Gardez les épaules loin des oreilles",def:"Trapezius release — very common correction in class."},
+{en:"Breathe through pursed lips",fr:"Expirez lèvres pincées",def:"Classic Pilates exhale technique — focused breath."},
+],
+exercises:[
+{en:"The Hundred",fr:"Le Cent",def:"Signature warm-up: pumping arms 100 times in a curl-up with legs at table-top or extended."},
+{en:"Roll Up",fr:"Le Roulé",def:"Full spinal articulation from supine to seated and back down with control."},
+{en:"Roll Over",fr:"Le Retournement",def:"Legs overhead with controlled spinal articulation, then open and lower."},
+{en:"Single Leg Circle",fr:"Le Cercle d'une Jambe",def:"One leg traces circles while the pelvis remains completely stable."},
+{en:"Rolling Like a Ball",fr:"Rouler Comme une Balle",def:"Balanced on the sacrum, rolling back and returning without touching the mat."},
+{en:"Single Leg Stretch",fr:"L'Extension d'une Jambe",def:"Alternating legs extending while in a curl-up — core and coordination."},
+{en:"Double Leg Stretch",fr:"L'Extension des Deux Jambes",def:"Reaching arms and legs away from center, then circling back in."},
+{en:"Spine Stretch Forward",fr:"L'Extension de la Colonne",def:"Seated forward flexion of the spine with arms reaching — a 'C' curve."},
+{en:"Open Leg Rocker",fr:"Le Balancier Jambes Ouvertes",def:"Balanced on the sit bones with straight legs, rolling back and returning."},
+{en:"Corkscrew",fr:"Le Tire-Bouchon",def:"Both legs circle together while maintaining a stable, flat back."},
+{en:"Saw",fr:"La Scie",def:"Spinal rotation with forward flexion, reaching the opposite hand past the foot."},
+{en:"Swan",fr:"Le Cygne",def:"Prone spinal extension sequence — the back extension series."},
+{en:"Single Leg Kick",fr:"La Ruade d'une Jambe",def:"Prone on elbows: alternate knee flexion while maintaining spinal extension."},
+{en:"Double Leg Kick",fr:"La Ruade des Deux Jambes",def:"Prone: both legs kick 3 times, then extend spine and reach arms back."},
+{en:"Neck Pull",fr:"La Traction du Cou",def:"Hands behind the head, rolling up with control and flexing forward."},
+{en:"Side Kicks",fr:"Les Coups de Pied Latéraux",def:"Side-lying series targeting hip stability and leg strength."},
+{en:"Teaser",fr:"Le Taquin",def:"V-sit balance — a quintessential powerhouse challenge."},
+{en:"Swimming",fr:"La Natation",def:"Prone: alternating opposite arm and leg lifts with a flutter-kick rhythm."},
+{en:"Leg Pull Front",fr:"Extension des Jambes Face Avant",def:"Plank position: one leg lifts while maintaining a perfectly stable trunk."},
+{en:"Side Bend",fr:"La Flexion Latérale",def:"Side plank with a lateral arc of the body — challenges lateral stability."},
+{en:"Boomerang",fr:"Le Boomerang",def:"Complex combination of Teaser, Roll Over, and balance."},
+{en:"Seal",fr:"Le Phoque",def:"Rolling Like a Ball with hands clasped inside the ankles — spinal mobility."},
+{en:"Push Up",fr:"La Pompe",def:"Classical ending: standing roll-down into push-up and back up."},
+],
+teaching:[
+{en:"Begin in a supine position",fr:"Commencez allongé(e) sur le dos",def:"Lying on the back, face up. Standard starting position for mat class."},
+{en:"Inhale to prepare",fr:"Inspirez pour préparer",def:"Breath preparation before movement begins — sets the rhythm."},
+{en:"Exhale and...",fr:"Expirez et...",def:"Cue for the action phase — exertion on the exhale."},
+{en:"Modify by bending your knees",fr:"Modifiez en pliant les genoux",def:"Modification to reduce difficulty or protect the lower back."},
+{en:"For a challenge, extend both legs",fr:"Pour plus de défi, étendez les deux jambes",def:"Progression cue for more advanced students."},
+{en:"Take three more breaths here",fr:"Prenez encore trois respirations ici",def:"Hold instruction with breath count."},
+{en:"Let's transition into...",fr:"Passons à... / Enchaînons avec...",def:"Moving to the next exercise."},
+{en:"Come back to center",fr:"Revenez au centre",def:"Returning to neutral or starting position."},
+{en:"Well done, everyone",fr:"Très bien, tout le monde",def:"Encouragement — acknowledge group effort."},
+{en:"Notice how your body feels",fr:"Observez les sensations dans votre corps",def:"Body awareness cue — proprioception check."},
+{en:"If you feel any discomfort, ease off",fr:"Si vous ressentez de l'inconfort, réduisez l'effort",def:"Safety cue — permission to modify."},
+{en:"Listen to your body",fr:"Écoutez votre corps",def:"Self-care cue encouraging body awareness over performance."},
+{en:"Keep your gaze soft",fr:"Gardez le regard doux",def:"Soften the eye focus to reduce neck tension."},
+{en:"With control, lower down",fr:"Avec contrôle, descendez",def:"Eccentric control cue — slowing the lowering phase."},
+{en:"Hold this position for 5 counts",fr:"Maintenez cette position pendant 5 temps",def:"Static hold instruction with counting."},
+{en:"Press your feet firmly into the mat",fr:"Appuyez fermement les pieds dans le tapis",def:"Grounding cue for stability."},
+{en:"Stack your vertebrae one by one",fr:"Empilez les vertèbres une à une",def:"Rolling up cue — sequential spinal articulation."},
+{en:"Keep your shoulders away from your ears",fr:"Gardez les épaules loin des oreilles",def:"Trapezius release cue — very common in class."},
+{en:"Contraindication",fr:"Contre-indication",def:"A condition that makes a particular exercise inadvisable."},
+{en:"Modification",fr:"Modification / Variante",def:"An adapted version of an exercise to suit a student's limitations."},
+{en:"Progression",fr:"Progression / Niveau avancé",def:"A more challenging version of an exercise."},
+{en:"Imagine your spine is growing taller",fr:"Imaginez que votre colonne grandit",def:"Elongation imagery — visualization cue."},
+{en:"Let gravity do the work",fr:"Laissez la gravité faire le travail",def:"Passive release or stretch cue."},
+{en:"Come to a standing position",fr:"Venez en position debout",def:"Transition cue to standing."},
+]
+};
+
+// ══════════ SIMULATION PROMPTS ══════════
+const SCENES={
+first:{title:"First Class Ever",sub:"Supportive · Build confidence",prompt:`You are 3 very supportive students in the very first Pilates class ever taught by Julie. She has never taught before and is practicing her English teaching vocabulary.
+
+STUDENTS: **Léa** (enthusiastic French expat), **James** (middle-aged newcomer to Pilates), **Yuki** (quiet but engaged, sometimes misunderstands positional cues).
+
+RULES:
+- Be warm and patient. Safe space.
+- If a cue is unclear, have a student misunderstand naturally. If it's clear, follow along happily.
+- 1-2 sentences per student, 1-2 students per reply.
+- After every 4 exchanges, add a gentle [💡 TIP] with one vocabulary suggestion, framed kindly like a mentor.`},
+beginner:{title:"Beginner Mat Class",sub:"Group of 4 · Beginners",prompt:`You are 4 beginner Pilates students in a mat class taught by Julie, who is developing her English teaching vocabulary.
+
+STUDENTS: **Sarah** (eager but tends to hold her breath), **Tom** (tight hamstrings, asks about modifications), **Maya** (flexible but weak core engagement), **Chris** (competitive, rushes if not reminded).
+
+RULES:
+- Vague cues = someone does it wrong. Clear cues = success.
+- If breath isn't cued, Sarah looks tense. If control isn't cued, Chris rushes.
+- After every 5 exchanges, add a [💡 VOCAB TIP].
+- 1-2 sentences per student, 1-2 students per reply.`},
+intermediate:{title:"Intermediate Class",sub:"Group · Intermediate",prompt:`You are 3 intermediate Pilates students taught by Julie.
+
+STUDENTS: **Alex** (precise, says "What exactly do you mean?" to vague cues), **Nina** (strong but grips neck in abdominal work), **David** (athletic, uses momentum if not reminded).
+
+RULES:
+- These students know basics — no need to explain fundamentals unless asked.
+- After every 5 exchanges, add an [💡 ADVANCED TIP] for more technical language.
+- Concise responses — 1-2 sentences.`},
+certification:{title:"Certification Exam",sub:"Observed · Formal",prompt:`You play TWO roles:
+
+**[EXAMINER]** — A rigorous Pilates teacher trainer evaluating Julie's exam.
+**[Student]** — A cooperative student who occasionally makes errors Julie should correct.
+
+Start with: [EXAMINER]: "Please begin when ready. Teach a foundational mat sequence."
+
+[EXAMINER] interrupts every 4-5 exchanges: "What is the contraindication for this exercise with disc herniation?", "Explain your breath cuing choice.", "The student's pelvis is in anterior tilt — correct that verbally.", "What modification for osteoporosis?"
+
+[Student] makes subtle errors: looking at ceiling instead of chin-to-chest, arching low back, holding breath.
+
+After 10 teacher turns: formal [ASSESSMENT] — ✅ 2 strengths, ⚠️ 2 areas to develop, 📚 1 vocab recommendation.`}
+};
+
+// ══════════ PRACTICE TOPICS ══════════
+const PT=[
+{id:'greeting',ico:'👋',t:'Opening the Class',d:'Welcome, tone-setting, first breathing exercise.',ctx:'opening a Pilates mat class — welcome, breathing explanation, first body scan'},
+{id:'hundred',ico:'💯',t:'The Hundred',d:'Set up, cue, and close The Hundred.',ctx:'explaining and cueing The Hundred — position, breath pump, modifications, how to end'},
+{id:'breathing',ico:'🌬',t:'Breathing Tutorial',d:'Teach lateral thoracic breathing from scratch.',ctx:'teaching lateral/thoracic breathing to beginners — how to expand the back ribs, coordinating with movement'},
+{id:'neutral',ico:'🦴',t:'Neutral Spine & Imprint',d:'Explain both positions and when to use each.',ctx:'explaining neutral spine vs imprint — how to find each, why it matters, common errors'},
+{id:'abdominals',ico:'💪',t:'Abdominal Series',d:'Single Leg Stretch through Criss Cross.',ctx:'cueing the full abdominal series — Single Leg Stretch, Double Leg Stretch, Scissors, Double Straight Leg, Criss Cross'},
+{id:'rollup',ico:'🔄',t:'Roll Up',d:'Full spinal articulation with alignment cues.',ctx:'explaining and cueing the Roll Up — from supine, articulation up and down, breath, modifications'},
+{id:'corrections',ico:'✏️',t:'Verbal Corrections',d:'Practice giving specific alignment corrections.',ctx:'giving verbal corrections — correcting anterior pelvic tilt, protracted shoulders, gripping the neck in abdominal work'},
+{id:'free',ico:'✨',t:'Free Sequence',d:'Teach any 10-minute sequence — full improv.',ctx:'teaching a free Pilates mat sequence of her own choosing'},
+];
+
+// ══════════ STATE ══════════
+let fcCat='anatomy',fcCards=[],fcIdx=0,fcKnown=new Set();
+let qCards=[],qIdx=0,qScore=0,qTotal=0,qDone=false;
+let chatH=[],simKey=null,simLoading=false;
+let ttsOn=localStorage.getItem('pc_tts')==='true',ttsVoices=[];
+let camStream=null,camInt=null,camBusy=false,camTimer=null;
+let curTopic=null,recText='',recInt='',recOn=false,recR=null,recTI=null,recSec=0;
+let cvRec=null,cvOn=false;
+
+// ══════════ NAVIGATION ══════════
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='flashcard-screen')initFC();
+  if(id==='quiz-screen')initQ();
+  if(id==='practice-screen')buildTopics();
+}
+
+// ══════════ API KEY ══════════
+function saveKey(){
+  const k=document.getElementById('api-key-input').value.trim();
+  if(!k.startsWith('sk-ant-')){toast('Clé invalide — commence par sk-ant-');return;}
+  localStorage.setItem('pc_key',k);go('home-screen');
+}
+function getKey(){return localStorage.getItem('pc_key')||'';}
+function showSettings(){document.getElementById('api-key-input').value=getKey();go('setup-screen');}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  if(getKey())go('home-screen');
+  loadVoices();updateTtsBtn();buildTopics();
+});
+
+// ══════════ FLASHCARDS ══════════
+const CATS=[{id:'anatomy',l:'🦴 Anatomy'},{id:'principles',l:'✨ Principles'},{id:'cues',l:'💬 Cues'},{id:'exercises',l:'🏃 Exercises'},{id:'teaching',l:'🎓 Teaching'}];
+
+function initFC(){renderCTabs();loadCat(fcCat);}
+function renderCTabs(){
+  document.getElementById('ctabs').innerHTML=CATS.map(c=>
+    `<button class="tpill ${c.id===fcCat?'active':''}" onclick="loadCat('${c.id}')">${c.l}</button>`
+  ).join('');
+}
+function loadCat(cat){
+  fcCat=cat;fcCards=shuf([...V[cat]]);fcIdx=0;fcKnown=new Set();
+  document.getElementById('fcard').classList.remove('flipped');
+  renderCTabs();showCard();
+}
+function showCard(){
+  if(!fcCards.length)return;
+  const c=fcCards[fcIdx],n=fcCards.length;
+  document.getElementById('fc-cat').textContent=fcCat.toUpperCase();
+  document.getElementById('fc-cat2').textContent=fcCat.toUpperCase();
+  document.getElementById('fc-term').textContent=c.en;
+  document.getElementById('fc-fr').textContent=c.fr;
+  document.getElementById('fc-def').textContent=c.def;
+  document.getElementById('fc-cnt').textContent=`${fcIdx+1} / ${n}`;
+  document.getElementById('fc-kn').textContent=`✓ ${fcKnown.size} known`;
+  document.getElementById('fc-prog').style.width=`${((fcIdx+1)/n)*100}%`;
+  const w=document.getElementById('fc-watch');
+  if(fcCat==='exercises'){
+    w.href=`https://www.youtube.com/results?search_query=${encodeURIComponent('pilates '+c.en)}`;
+    w.style.display='inline-block';
+  }else{w.style.display='none';}
+  document.getElementById('fcard').classList.remove('flipped');
+}
+function flipCard(){document.getElementById('fcard').classList.toggle('flipped');}
+function nextCard(k){if(k)fcKnown.add(fcCards[fcIdx].en);fcIdx=(fcIdx+1)%fcCards.length;showCard();}
+function pronounceCard(e){e.stopPropagation();pronounce(fcCards[fcIdx]?.en||'');}
+
+// ══════════ QUIZ ══════════
+function initQ(){
+  qCards=shuf(Object.values(V).flat());qIdx=0;qScore=0;qTotal=0;showQ();
+}
+function showQ(){
+  qDone=false;
+  document.getElementById('q-next').style.display='none';
+  if(qIdx>=qCards.length)qIdx=0;
+  const c=qCards[qIdx];
+  let cat='';
+  for(const[k,arr]of Object.entries(V)){if(arr.find(x=>x.en===c.en)){cat=k.toUpperCase();break;}}
+  document.getElementById('q-cat').textContent=cat;
+  document.getElementById('q-term').textContent=c.en;
+  document.getElementById('qs-lbl').textContent=`${qScore} / ${qTotal}`;
+  const all=Object.values(V).flat();
+  const wrong=shuf(all.filter(x=>x.en!==c.en)).slice(0,3);
+  const choices=shuf([c,...wrong]);
+  document.getElementById('q-choices').innerHTML=choices.map(x=>
+    `<button class="qc" data-en="${x.en.replace(/"/g,'&quot;')}" onclick="answerQ(this,'${esc(x.en)}','${esc(c.en)}')">${x.fr}</button>`
+  ).join('');
+}
+function pronounceQuiz(){pronounce(qCards[qIdx]?.en||'');}
+function answerQ(btn,chosen,correct){
+  if(qDone)return;qDone=true;qTotal++;
+  document.querySelectorAll('.qc').forEach(b=>{
+    if(b.dataset.en===correct)b.classList.add('ok');
+    else if(b.dataset.en===chosen&&chosen!==correct)b.classList.add('no');
+    b.disabled=true;
+  });
+  if(chosen===correct)qScore++;
+  document.getElementById('qs-lbl').textContent=`${qScore} / ${qTotal}`;
+  document.getElementById('q-next').style.display='block';
+}
+function nextQuiz(){qIdx++;showQ();}
+
+// ══════════ SIMULATION ══════════
+function startSim(key){
+  simKey=key;const s=SCENES[key];
+  chatH=[];
+  document.getElementById('c-title').textContent=s.title;
+  document.getElementById('c-sub').textContent=s.sub;
+  document.getElementById('msgs').innerHTML='';
+  addMsg('sys',`🎭 ${s.title}\n\nYou are the teacher — start whenever you're ready!`);
+  updateTtsBtn();
+  go('chat-screen');
+}
+function endSim(){
+  if(chatH.length>0&&!confirm('End session?'))return;
+  stopCamera();cancelSpeech();stopCV();
+  go('simulation-screen');
+}
+
+// ══════════ CLAUDE API ══════════
+async function api(messages,system,maxT=400){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:maxT,system,messages})
+  });
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||`API ${r.status}`);}
+  return(await r.json()).content[0].text;
+}
+async function apiVision(b64,prompt){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:150,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},{type:'text',text:prompt}]}]})
+  });
+  if(!r.ok)throw new Error(`Vision ${r.status}`);
+  return(await r.json()).content[0].text;
+}
+async function send(){
+  const el=document.getElementById('cinput');
+  const text=el.value.trim();if(!text||simLoading)return;
+  el.value='';el.style.height='auto';
+  cancelSpeech();
+  addMsg('t',text);chatH.push({role:'user',content:text});
+  simLoading=true;const tid=addTyping();
+  try{
+    const reply=await api(chatH,SCENES[simKey].prompt);
+    removeTyping(tid);
+    chatH.push({role:'assistant',content:reply});
+    parseRender(reply);
+    if(ttsOn)speakReply(reply);
+  }catch(e){removeTyping(tid);addMsg('sys',`⚠️ ${e.message}`);}
+  simLoading=false;
+}
+async function getFeedback(){
+  if(simLoading||chatH.length<2){toast('Teach a bit first!');return;}
+  simLoading=true;const tid=addTyping();
+  try{
+    const tr=chatH.map(m=>`${m.role==='user'?'TEACHER':'STUDENT'}: ${m.content}`).join('\n\n');
+    const fb=await api([{role:'user',content:`Pilates teaching session:\n\n${tr}\n\nAs an English-speaking Pilates teacher trainer, give Julie specific feedback on:\n1. **Vocabulary** — terms used well, key terms missing\n2. **Cue clarity** — were alignment cues specific? Give examples.\n3. **English** — one pattern to refine\n4. **Flow** — pacing and transitions\n5. **Priority this week** — one phrase to practice\n\nBe encouraging. Quote the actual conversation.`}],'You are an expert Pilates teacher trainer and English coach.',700);
+    removeTyping(tid);addMsg('fb','📊 Session Feedback\n\n'+fb);
+  }catch(e){removeTyping(tid);addMsg('sys',`⚠️ ${e.message}`);}
+  simLoading=false;
+}
+function parseRender(text){
+  const i=text.search(/\[💡|\[ADVANCED TIP\]|\[ASSESSMENT\]/);
+  if(i>0){
+    const before=text.substring(0,i).trim();
+    const tip=text.substring(i).trim();
+    if(before)addMsg('s',before);
+    if(tip)addMsg('fb',tip);
+  }else if(i===0){addMsg('fb',text);}
+  else{addMsg('s',text);}
+}
+
+// ══════════ PRONUNCIATION ══════════
+function pronounce(text){
+  if(!text)return;
+  cancelSpeech();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=0.82;u.pitch=1.0;
+  const vs=ttsVoices.length?ttsVoices:speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  if(vs.length)u.voice=vs[0];
+  speechSynthesis.speak(u);
+}
+
+// ══════════ TTS ══════════
+function loadVoices(){
+  const set=()=>{ttsVoices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));};
+  set();
+  speechSynthesis.addEventListener('voiceschanged',set);
+  setTimeout(set,1000);
+}
+const CP={
+  'Léa':{p:1.2,r:1.0,vi:0},'James':{p:0.82,r:0.9,vi:4},'Yuki':{p:1.15,r:0.92,vi:1},
+  'Sarah':{p:1.18,r:1.0,vi:2},'Tom':{p:0.78,r:0.9,vi:5},'Maya':{p:1.1,r:0.95,vi:3},
+  'Chris':{p:0.9,r:1.1,vi:6},'Alex':{p:1.05,r:0.95,vi:0},'Nina':{p:1.2,r:1.0,vi:1},
+  'David':{p:0.85,r:1.05,vi:5},'Emma':{p:1.1,r:0.95,vi:2},'EXAMINER':{p:0.7,r:0.85,vi:6},
+  'Student':{p:1.0,r:1.0,vi:0}
+};
+function speakReply(text){
+  let t=text;
+  const ti=t.search(/\[💡|\[ASSESSMENT\]|\[FEEDBACK\]/);
+  if(ti>0)t=t.substring(0,ti);
+  const re=/\*\*([A-Za-zÀ-ÿ\s]+)\*\*:\s*"?([^*\n"]+)"?/g;
+  const segs=[];let m,last=0;
+  while((m=re.exec(t))!==null){
+    if(m.index>last){const plain=t.substring(last,m.index).replace(/\*\*/g,'').replace(/\*/g,'').trim();if(plain)segs.push({n:'',txt:plain});}
+    segs.push({n:m[1].trim(),txt:m[2].trim()});
+    last=m.index+m[0].length;
+  }
+  if(last<t.length){const plain=t.substring(last).replace(/\*\*/g,'').replace(/\*/g,'').replace(/\[.*?\]/g,'').trim();if(plain)segs.push({n:'',txt:plain});}
+  if(!segs.length){
+    const plain=t.replace(/\*\*/g,'').replace(/\*/g,'').replace(/\[.*?\]/g,'').trim();
+    if(plain)segs.push({n:'',txt:plain});
+  }
+  speakQ(segs,0);
+}
+function speakQ(segs,i){
+  if(i>=segs.length)return;
+  const s=segs[i],cp=CP[s.n]||{p:1.0,r:0.95,vi:0};
+  const u=new SpeechSynthesisUtterance(s.txt);
+  u.lang='en-US';u.pitch=cp.p;u.rate=cp.r;
+  const vs=ttsVoices.length?ttsVoices:speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  if(vs.length)u.voice=vs[cp.vi%vs.length];
+  u.onend=()=>speakQ(segs,i+1);
+  speechSynthesis.speak(u);
+}
+function cancelSpeech(){if(typeof speechSynthesis!=='undefined')speechSynthesis.cancel();}
+function toggleTts(){ttsOn=!ttsOn;localStorage.setItem('pc_tts',ttsOn);updateTtsBtn();toast(ttsOn?'🔊 Student voices ON':'🔇 Student voices OFF');}
+function updateTtsBtn(){const b=document.getElementById('tts-btn');if(!b)return;b.textContent=ttsOn?'🔊 On':'🔇 Off';b.classList.toggle('on',ttsOn);}
+
+// ══════════ WEBCAM + VISION ══════════
+async function toggleCam(){
+  if(camStream){stopCamera();return;}
+  if(!navigator.mediaDevices?.getUserMedia){toast('Camera not available (needs HTTPS)');return;}
+  try{
+    camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:320},height:{ideal:240}}});
+    document.getElementById('cam-video').srcObject=camStream;
+    document.getElementById('cam-panel').classList.add('open');
+    document.getElementById('cam-btn').classList.add('on');
+    camInt=setInterval(analyzeFrame,30000);
+    setTimeout(analyzeFrame,5000);
+  }catch(e){toast('Camera permission denied');}
+}
+function stopCamera(){
+  if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}
+  clearInterval(camInt);camInt=null;
+  clearTimeout(camTimer);camTimer=null;
+  document.getElementById('cam-panel').classList.remove('open');
+  document.getElementById('cam-btn').classList.remove('on');
+  document.getElementById('cam-tip').classList.remove('show');
+}
+async function analyzeFrame(){
+  if(!camStream||camBusy)return;
+  camBusy=true;
+  try{
+    const v=document.getElementById('cam-video');
+    const c=document.createElement('canvas');c.width=320;c.height=240;
+    c.getContext('2d').drawImage(v,0,0,320,240);
+    const b64=c.toDataURL('image/jpeg',.7).split(',')[1];
+    const tip=await apiVision(b64,'You are a Pilates teacher trainer watching a student teacher on video. In 1-2 short encouraging sentences, give feedback on their teaching presence: eye contact with the camera, posture confidence, and use of hands or gestures. Be specific.');
+    const el=document.getElementById('cam-tip');
+    el.textContent=tip;el.classList.add('show');
+    clearTimeout(camTimer);
+    camTimer=setTimeout(()=>el.classList.remove('show'),8000);
+  }catch(e){}
+  camBusy=false;
+}
+
+// ══════════ PRACTICE RECORDING ══════════
+function buildTopics(){
+  const el=document.getElementById('ptopics');if(!el)return;
+  el.innerHTML=PT.map(t=>`<div class="sc" onclick="startPractice('${t.id}')"><div class="sico">${t.ico}</div><div class="si"><h3>${t.t}</h3><p>${t.d}</p></div><div class="sarr">›</div></div>`).join('');
+}
+function startPractice(id){
+  curTopic=PT.find(t=>t.id===id);if(!curTopic)return;
+  recText='';recInt='';recSec=0;recOn=false;
+  document.getElementById('r-title').textContent=curTopic.t;
+  document.getElementById('r-desc').textContent=curTopic.d;
+  document.getElementById('tarea').innerHTML='<span class="tph" id="tph">Tap the mic and start teaching in English...</span>';
+  document.getElementById('r-timer').textContent='00:00';
+  setRecBtn('idle');
+  document.getElementById('rst').textContent='Tap to start';
+  go('record-screen');
+}
+function toggleRec(){recOn?stopRec():startRec();}
+function startRec(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Voice recognition not available — needs Chrome + HTTPS');return;}
+  recText='';recInt='';recOn=true;
+  setRecBtn('rec');
+  document.getElementById('rst').textContent='Listening...';
+  const ph=document.getElementById('tph');if(ph)ph.remove();
+  startTimer();
+  recR=new SR();
+  recR.lang='en-US';recR.continuous=true;recR.interimResults=true;
+  recR.onresult=e=>{
+    recInt='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal)recText+=e.results[i][0].transcript+' ';
+      else recInt+=e.results[i][0].transcript;
+    }
+    renderRec();
+  };
+  recR.onend=()=>{if(recOn)try{recR.start();}catch(e){}};
+  recR.onerror=e=>{if(e.error==='no-speech'||e.error==='aborted')return;toast(`Mic: ${e.error}`);stopRec();};
+  try{recR.start();}catch(e){}
+}
+function stopRec(){
+  recOn=false;
+  if(recR){try{recR.stop();}catch(e){}recR=null;}
+  stopTimer();recInt='';renderRec();
+  setRecBtn('proc');
+  document.getElementById('rst').textContent='Analyzing...';
+  sendDebrief();
+}
+function renderRec(){
+  const a=document.getElementById('tarea');
+  a.innerHTML=hesc(recText)+(recInt?`<span class="tint">${hesc(recInt)}</span>`:'');
+  a.scrollTop=a.scrollHeight;
+}
+async function sendDebrief(){
+  const txt=recText.trim();
+  if(txt.length<15){toast('Too short — speak more!');setRecBtn('idle');document.getElementById('rst').textContent='Tap to start';return;}
+  try{
+    const fb=await api([{role:'user',content:`You are an expert Pilates teacher trainer and English coach. Julie just completed a solo practice session.
+
+Topic: "${curTopic.t}" — ${curTopic.ctx}
+Duration: ${recSec} seconds
+
+TRANSCRIPT:
+${txt}
+
+Provide a structured debrief:
+
+**1. Pilates Vocabulary**
+• Terms used correctly (cite from her transcript)
+• Key terms missing for this topic
+
+**2. Cue Quality**
+• Strongest cue — quote it directly
+• One cue to improve — quote hers, then give a better version
+
+**3. English Expression**
+• One grammar/phrasing pattern to refine (give a specific example from her transcript)
+• One phrase she used well
+
+**4. Teaching Flow**
+• Structure, pacing, and transition observations
+
+**5. Priority This Week**
+One single concrete thing to practice daily (specific and actionable)
+
+Be encouraging. Quote her actual words.`}],'You are an expert Pilates teacher trainer and English coach.',900);
+    document.getElementById('db-topic').textContent=curTopic.t;
+    document.getElementById('dbody').innerHTML=md2h(fb);
+    go('debrief-screen');
+  }catch(e){
+    document.getElementById('db-topic').textContent=curTopic.t;
+    document.getElementById('dbody').innerHTML=`<p>⚠️ ${hesc(e.message)}</p><p>Your transcript was captured — try again or check your API key.</p>`;
+    go('debrief-screen');
+  }
+}
+function practiceAgain(){startPractice(curTopic.id);}
+function startTimer(){
+  recSec=0;
+  recTI=setInterval(()=>{
+    recSec++;
+    const m=String(Math.floor(recSec/60)).padStart(2,'0');
+    const s=String(recSec%60).padStart(2,'0');
+    document.getElementById('r-timer').textContent=`${m}:${s}`;
+  },1000);
+}
+function stopTimer(){clearInterval(recTI);recTI=null;}
+function setRecBtn(state){
+  const b=document.getElementById('rbtn');
+  b.className=`rbtn ${state}`;
+  b.textContent=state==='idle'?'🎙':state==='rec'?'⏹':'⏳';
+}
+
+// ══════════ CHAT VOICE INPUT ══════════
+function toggleCV(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Voice not available');return;}
+  if(cvOn){stopCV();return;}
+  if(!cvRec){
+    cvRec=new SR();cvRec.lang='en-US';cvRec.continuous=false;cvRec.interimResults=false;
+    cvRec.onresult=e=>{
+      const t=e.results[0][0].transcript;
+      const el=document.getElementById('cinput');
+      el.value=(el.value+' '+t).trim();autoRes(el);
+    };
+    cvRec.onend=()=>stopCV();
+    cvRec.onerror=()=>stopCV();
+  }
+  try{cvRec.start();cvOn=true;const b=document.getElementById('vbtn');b.classList.add('on');b.textContent='🔴';toast('Listening...');}
+  catch(e){stopCV();}
+}
+function stopCV(){cvOn=false;if(cvRec)try{cvRec.stop();}catch(e){}const b=document.getElementById('vbtn');if(b){b.classList.remove('on');b.textContent='🎙';}}
+
+// ══════════ CHAT UI ══════════
+function addMsg(type,text){
+  const el=document.getElementById('msgs');
+  const d=document.createElement('div');d.className=`msg ${type}`;
+  if(type==='t')d.innerHTML=`<div class="mwho">You (Teacher)</div>${hesc(text)}`;
+  else d.innerHTML=md2h(text);
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+  return d;
+}
+let tN=0;
+function addTyping(){
+  const id=`ty${++tN}`;const el=document.getElementById('msgs');
+  const d=document.createElement('div');d.id=id;d.className='typing';
+  d.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;return id;
+}
+function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function autoRes(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,75)+'px';}
+
+// ══════════ UTILS ══════════
+function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return String(s).replace(/'/g,"\\'");}
+function hesc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function md2h(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^•\s(.+)/gm,'&bull; $1')
+    .replace(/\n/g,'<br>');
+}
+let toastT;
+function toast(msg,ms=2800){
+  const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),ms);
+}
+</script>
+</body>
+</html>
