@@ -61,13 +61,13 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .ctabs::-webkit-scrollbar{display:none}
 .tpill{flex-shrink:0;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;background:transparent;font-family:inherit;color:var(--t2);transition:all .15s;white-space:nowrap}
 .tpill.active{background:var(--text);color:#fff;border-color:var(--text)}
-.card-area{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px;overflow:hidden}
+.card-area{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px;overflow-y:auto}
 .cmeta{display:flex;justify-content:space-between;width:100%;margin-bottom:9px}
 .ccnt{font-size:12px;color:var(--t2)}
 .cknown{font-size:12px;color:var(--green);font-weight:500}
 .pbar{width:100%;height:3px;background:var(--border);border-radius:2px;margin-bottom:18px}
 .pfill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
-.fwrap{width:100%;perspective:1000px;flex:1;max-height:250px;margin-bottom:18px}
+.fwrap{width:100%;perspective:1000px;height:230px;flex-shrink:0;margin-bottom:16px}
 .fcard{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s ease;cursor:pointer}
 .fcard.flipped{transform:rotateY(180deg)}
 .face{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r);padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:var(--shadow)}
@@ -78,7 +78,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .cterm{font-size:20px;font-weight:700;line-height:1.3;letter-spacing:-.3px}
 .ctip{font-size:11px;color:var(--t2);margin-top:10px}
 .cback .ctip{color:rgba(255,255,255,.35)}
-.cfr{font-size:15px;font-weight:600;margin-bottom:7px}
+.cfr{font-size:15px;font-weight:600;margin-bottom:4px}
+.cpron{font-size:11px;opacity:.55;font-style:italic;margin-bottom:7px;letter-spacing:.3px}
 .cdef{font-size:11px;opacity:.75;line-height:1.55}
 .pbtn{position:absolute;bottom:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:5}
 .cback .pbtn{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.15)}
@@ -238,6 +239,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
         <div class="face cback">
           <div class="ccat" id="fc-cat2">ANATOMY</div>
           <div class="cfr" id="fc-fr">Colonne neutre</div>
+          <div class="cpron" id="fc-pron"></div>
           <div class="cdef" id="fc-def">Natural spine position.</div>
           <div class="ctip">Tap to flip back</div>
           <a id="fc-watch" class="wbtn" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ Watch Demo</a>
@@ -354,26 +356,26 @@ anatomy:[
 {en:"Imprint",fr:"Imprimer la colonne",def:"Gently pressing the lumbar spine into the mat, flattening the low back."},
 {en:"Powerhouse",fr:"Centre de force",def:"The deep core: transversus abdominis, pelvic floor, lower back, and glutes."},
 {en:"Pelvic Floor",fr:"Plancher pelvien / Périnée",def:"Hammock of muscles at the base of the pelvis supporting the organs."},
-{en:"Transversus Abdominis",fr:"Transverse de l'abdomen",def:"Deepest abdominal muscle — wraps around the trunk like a corset."},
-{en:"Rectus Abdominis",fr:"Droit de l'abdomen",def:"The superficial 'six-pack' muscle running vertically along the front of the belly."},
-{en:"Obliques",fr:"Obliques (interne & externe)",def:"Side abdominal muscles responsible for rotation and lateral flexion."},
+{en:"Transversus Abdominis",pron:"trans·VER·sus  ab·DOM·in·is",tts:"trans VER sus  ab DOM in is",fr:"Transverse de l'abdomen",def:"Deepest abdominal muscle — wraps around the trunk like a corset."},
+{en:"Rectus Abdominis",pron:"REK·tus  ab·DOM·in·is",tts:"REK tus  ab DOM in is",fr:"Droit de l'abdomen",def:"The superficial 'six-pack' muscle running vertically along the front of the belly."},
+{en:"Obliques",pron:"oh·BLEEKS",tts:"oh BLEEKS",fr:"Obliques (interne & externe)",def:"Side abdominal muscles responsible for rotation and lateral flexion."},
 {en:"Shoulder Girdle",fr:"Ceinture scapulaire",def:"Structure formed by the shoulder blades and collarbones."},
-{en:"Scapulae",fr:"Omoplates",def:"The shoulder blades — must be stabilized during arm movements."},
+{en:"Scapulae",pron:"SKAP·yoo·lee",tts:"SKAP yoo lee",fr:"Omoplates",def:"The shoulder blades — must be stabilized during arm movements."},
 {en:"Hip Flexors",fr:"Fléchisseurs de hanche",def:"Muscles that bring the thigh toward the torso (psoas, iliacus, rectus femoris)."},
 {en:"Hamstrings",fr:"Ischio-jambiers",def:"Three muscles along the back of the thigh."},
 {en:"Glutes",fr:"Fessiers",def:"Gluteus maximus, medius, and minimus — key for hip stability and extension."},
-{en:"Erector Spinae",fr:"Érecteurs du rachis",def:"Column of muscles along the spine responsible for extension and posture."},
+{en:"Erector Spinae",pron:"ih·REK·tor  SPY·nee",tts:"ih REK tor  SPY nee",fr:"Érecteurs du rachis",def:"Column of muscles along the spine responsible for extension and posture."},
 {en:"Adductors",fr:"Adducteurs",def:"Inner thigh muscles that bring the legs together."},
 {en:"Cervical Spine",fr:"Colonne cervicale",def:"The 7 vertebrae of the neck."},
 {en:"Thoracic Spine",fr:"Colonne thoracique",def:"The 12 vertebrae of the mid-back, attached to the ribs."},
 {en:"Lumbar Spine",fr:"Colonne lombaire",def:"The 5 vertebrae of the lower back."},
-{en:"Sacrum",fr:"Sacrum",def:"Triangular bone at the base of the spine connecting to the pelvis."},
+{en:"Sacrum",pron:"SAY·krum",tts:"SAY krum",fr:"Sacrum",def:"Triangular bone at the base of the spine connecting to the pelvis."},
 {en:"Ribcage",fr:"Cage thoracique",def:"The bony framework protecting the heart and lungs."},
 {en:"Anterior Pelvic Tilt",fr:"Bascule antérieure du bassin",def:"Forward tipping of the pelvis, increasing the lumbar curve (arched low back)."},
 {en:"Posterior Pelvic Tilt",fr:"Bascule postérieure du bassin",def:"Backward tipping of the pelvis, flattening the lumbar curve (tucked pelvis)."},
-{en:"Axial Elongation",fr:"Élongation axiale",def:"Lengthening of the spine from the tailbone through the crown of the head."},
+{en:"Axial Elongation",pron:"AK·see·ul  ee·long·GAY·shun",tts:"AK see ul  ee long GAY shun",fr:"Élongation axiale",def:"Lengthening of the spine from the tailbone through the crown of the head."},
 {en:"Lateral Flexion",fr:"Flexion latérale",def:"Side bending of the spine."},
-{en:"Hip Socket",fr:"Acetabulum",def:"Cup-shaped socket in the pelvis where the femur head articulates."},
+{en:"Hip Socket (Acetabulum)",pron:"ass·ih·TAB·yoo·lum",tts:"ass ih TAB yoo lum",fr:"Acétabulum",def:"Cup-shaped socket in the pelvis where the femur head articulates."},
 ],
 principles:[
 {en:"Centering",fr:"Centrage",def:"Drawing power from the body's center — the powerhouse. All movement originates here."},
@@ -574,6 +576,7 @@ function showCard(){
   document.getElementById('fc-cnt').textContent=`${fcIdx+1} / ${n}`;
   document.getElementById('fc-kn').textContent=`✓ ${fcKnown.size} known`;
   document.getElementById('fc-prog').style.width=`${((fcIdx+1)/n)*100}%`;
+  document.getElementById('fc-pron').textContent=c.pron?`/ ${c.pron} /`:'';
   const w=document.getElementById('fc-watch');
   if(fcCat==='exercises'){
     w.href=`https://www.youtube.com/results?search_query=${encodeURIComponent('pilates '+c.en)}`;
@@ -583,7 +586,7 @@ function showCard(){
 }
 function flipCard(){document.getElementById('fcard').classList.toggle('flipped');}
 function nextCard(k){if(k)fcKnown.add(fcCards[fcIdx].en);fcIdx=(fcIdx+1)%fcCards.length;showCard();}
-function pronounceCard(e){e.stopPropagation();pronounce(fcCards[fcIdx]?.en||'');}
+function pronounceCard(e){e.stopPropagation();const c=fcCards[fcIdx];pronounce(c?.tts||c?.en||'');}
 
 // ══════════ QUIZ ══════════
 function initQ(){
@@ -606,7 +609,7 @@ function showQ(){
     `<button class="qc" data-en="${x.en.replace(/"/g,'&quot;')}" onclick="answerQ(this,'${esc(x.en)}','${esc(c.en)}')">${x.fr}</button>`
   ).join('');
 }
-function pronounceQuiz(){pronounce(qCards[qIdx]?.en||'');}
+function pronounceQuiz(){const c=qCards[qIdx];pronounce(c?.tts||c?.en||'');}
 function answerQ(btn,chosen,correct){
   if(qDone)return;qDone=true;qTotal++;
   document.querySelectorAll('.qc').forEach(b=>{
